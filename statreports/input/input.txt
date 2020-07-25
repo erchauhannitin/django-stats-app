@@ -1,0 +1,17 @@
+alarm
+since 2017-07-22 23:12
+NAME                                  MODULE                          ID  
+name1								  mod1								11
+name2								  mod2								33
+
+cache
+since 2017-07-22 23:12
+NAME                                                     SIZE  
+name3								  mod3								
+name4								  mod4								
+
+cluster
+since 2017-07-22 23:12
+NAME                                                     SIZE  MAXSIZE  
+name5								  mod5								66
+name6								  mod6								55
