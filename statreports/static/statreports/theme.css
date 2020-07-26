@@ -18,9 +18,22 @@ body {
 }
 
 /* Sortable tables */
-table.sortable {
-  background-color: rgb(95, 192, 163);
-  color: #3bb1ab;
+table.sortable thead {
+  background-color: rgb(145, 224, 198);
+  color: #666666;
   font-weight: bold;
   cursor: default;
+}
+
+h3 span {
+  font-size: 22px;
+}
+h3 input.search-input {
+  width: 300px;
+  margin-left: auto;
+  float: right;
+}
+
+div a {
+  float: unset;
 }
