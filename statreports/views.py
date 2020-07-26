@@ -69,5 +69,6 @@ def stats(request):
     except EmptyPage:
         page = p.page(1)
 
-    context = {'rows': page}
+    context = {'rows': page, 'header': header,
+               'title': title, 'timeStamp': timeStamp}
     return render(request, 'statreports/index.html', context)
