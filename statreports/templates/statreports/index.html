@@ -10,22 +10,27 @@
     <meta name="author" content="" />
 
     <title>Stat Reports</title>
+    <!-- <script src="../../scripts/sorttable.js"></script> -->
+    <script src="sorttable.js"></script>
 
     <!-- Bootstrap core CSS -->
-    <link href="{% static 'guestbook/bootstrap.min.css' %}" rel="stylesheet" />
+    <link
+      href="{% static 'statreports/bootstrap.min.css' %}"
+      rel="stylesheet"
+    />
     <!-- Bootstrap theme -->
     <link
-      href="{% static 'guestbook/bootstrap-theme.min.css' %}"
+      href="{% static 'statreports/bootstrap-theme.min.css' %}"
       rel="stylesheet"
     />
 
     <!-- Custom styles for this template -->
-    <link href="{% static 'guestbook/theme.css' %}" rel="stylesheet" />
+    <link href="{% static 'statreports/theme.css' %}" rel="stylesheet" />
   </head>
 
   <body>
     <div class="container theme-showcase" role="main">
-      <table border="1" cellpadding="5" cellspacing="5">
+      <table class="sortable" border="1" cellpadding="5" cellspacing="5">
         <td>Name</td>
         <td>Address</td>
         <td>Count</td>
@@ -48,9 +53,8 @@
         >Previous Page</a
       >
       {% endif %} {% if rows.has_next %}
-      <a href="{% url 'idx' %}?page={{rows.next_page_number}}">Next Page</a>
+      <a href="{% url 'index' %}?page={{rows.next_page_number}}">Next Page</a>
       {% endif %}
     </div>
-    <!-- /container -->
   </body>
 </html>

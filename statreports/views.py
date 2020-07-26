@@ -58,7 +58,6 @@ def stats(request):
         row.save()
 
     maxEntry = max(entries, key=lambda entry: entry.COUNT)
-    print(maxEntry)
 
     rows = ReportRow.objects.order_by('-count')
     p = Paginator(rows, 20)
