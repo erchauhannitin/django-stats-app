@@ -60,6 +60,7 @@
       </table>
     </div>
 
+    <br />
     <div>
       {% if rows.has_previous %}
       <a href="{% url 'index' %}?page={{rows.previous_page_number}}"
@@ -68,6 +69,23 @@
       {% endif %} {% if rows.has_next %}
       <a href="{% url 'index' %}?page={{rows.next_page_number}}">Next</a>
       {% endif %}
+    </div>
+    <div class="pagination">
+      <span class="step-links">
+        {% if rows.has_previous %}
+        <a href="?page=1">&laquo; First</a>
+        <a href="?page={{ rows.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        <span class="current">
+          Page {{ rows.number }} of {{ rows.paginator.num_pages }}.
+        </span>
+
+        {% if rows.has_next %}
+        <a href="?page={{ rows.next_page_number }}">Next</a>
+        <a href="?page={{ rows.paginator.num_pages }}">Last &raquo;</a>
+        {% endif %}
+      </span>
     </div>
     <script>
       (function (document) {

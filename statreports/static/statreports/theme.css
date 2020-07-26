@@ -19,10 +19,12 @@ body {
 
 /* Sortable tables */
 table.sortable thead {
-  background-color: rgb(145, 224, 198);
-  color: #666666;
+  background-color: rgb(236, 217, 175);
+  color: #1f1515;
   font-weight: bold;
   cursor: default;
+  font-size: 1.8rem;
+  text-align: center;
 }
 
 h3 span {
@@ -35,5 +37,33 @@ h3 input.search-input {
 }
 
 div a {
-  float: unset;
+  float: none;
+  font-size: 1.8rem;
+}
+
+tr:nth-child(even) {
+  background-color: rgb(230, 221, 221);
+}
+
+table {
+  counter-reset: rowNumber;
+}
+
+table tr::before {
+  display: table-cell;
+  counter-increment: rowNumber;
+  content: counter(rowNumber) ".";
+  padding-right: 0.3em;
+  text-align: right;
+  font-family: "Calibri (Body)";
+}
+
+body {
+  background-color: white;
+  color: black;
+}
+
+.dark-mode {
+  background-color: black;
+  color: white;
 }
