@@ -52,6 +52,9 @@ def stats(request):
         entry = Entry(NAME, ADDRESS, ACTIVE, INACTIVE, MAX_ACTIVE,
                       COUNT, ERRORS, TIMEOUTS, LATENCY, PEAK_LATENCY, THROUGHPUT)
         entries.append(entry)
+        row = ReportRow(name=NAME, address=ADDRESS, active=ACTIVE, inActive=INACTIVE, maxActive=MAX_ACTIVE,
+                        count=COUNT, errors=ERRORS, timeOuts=TIMEOUTS, latency=LATENCY, peakLatency=PEAK_LATENCY, throughPut=THROUGHPUT)
+        row.save()
 
     maxEntry = max(entries, key=lambda entry: entry.COUNT)
     print(maxEntry)
