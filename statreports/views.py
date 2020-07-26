@@ -46,6 +46,8 @@ def stats(request):
     timeStamp = file.pop(0)
     header = file.pop(0)
 
+    ReportRow.objects.all().delete()
+
     for line in file:
         words = re.split(r'  +', line.lstrip())
         NAME, ADDRESS, ACTIVE, INACTIVE, MAX_ACTIVE, COUNT, ERRORS, TIMEOUTS, LATENCY, PEAK_LATENCY, THROUGHPUT = [
