@@ -25,21 +25,31 @@
 
   <body>
     <div class="container theme-showcase" role="main">
-      <div class="jumbotron">
-        <h1>Stat Reports</h1>
-        <a type="button" class="btn btn-link" href="{% url 'sign' %}"
-          >Stat reports</a
-        >
-      </div>
+      <table border="1" cellpadding="5" cellspacing="5">
+        <td>Name</td>
+        <td>Address</td>
+        <td>Count</td>
+        <td>Errors</td>
 
-      {% for row in rows %}
-      <div class="page-header">
-        <h1>{{ row.name }}</h1>
-      </div>
-      <div class="well">
-        <p>{{ row.address }}</p>
-      </div>
-      {% endfor %}
+        {% for row in rows %}
+        <tr class="page-header">
+          <td>{{ row.name }}</td>
+          <td>{{ row.address }}</td>
+          <td>{{ row.count }}</td>
+          <td>{{ row.errors }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+
+    <div>
+      {% if rows.has_previous %}
+      <a href="{% url 'index' %}?page={{rows.previous_page_number}}"
+        >Previous Page</a
+      >
+      {% endif %} {% if rows.has_next %}
+      <a href="{% url 'idx' %}?page={{rows.next_page_number}}">Next Page</a>
+      {% endif %}
     </div>
     <!-- /container -->
   </body>

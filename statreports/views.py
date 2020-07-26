@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from .models import ReportRow
 from django.shortcuts import render, redirect
 import re
+from django.core.paginator import Paginator, EmptyPage
 
 
 class Entry(object):
@@ -59,6 +60,13 @@ def stats(request):
     maxEntry = max(entries, key=lambda entry: entry.COUNT)
     print(maxEntry)
 
-    rows = ReportRow.objects.order_by('name')
-    context = {'rows': rows}
+    rows = ReportRow.objects.order_by('-count')
+    p = Paginator(rows, 20)
+    pageNum = request.GET.get('page', 1)
+    try:
+        page = p.page(pageNum)
+    except EmptyPage:
+        page = p.page(1)
+
+    context = {'rows': page}
     return render(request, 'statreports/index.html', context)
