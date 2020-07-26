@@ -45,7 +45,6 @@ sorttable = {
       the.appendChild(table.rows[0]);
       table.insertBefore(the, table.firstChild);
     }
-    console.log("***************************");
     // Safari doesn't support table.tHead, sigh
     if (table.tHead == null)
       table.tHead = table.getElementsByTagName("thead")[0];
