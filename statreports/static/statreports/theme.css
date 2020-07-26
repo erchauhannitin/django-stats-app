@@ -16,3 +16,11 @@ body {
 .theme-showcase .navbar .container {
   width: auto;
 }
+
+/* Sortable tables */
+table.sortable {
+  background-color: rgb(95, 192, 163);
+  color: #3bb1ab;
+  font-weight: bold;
+  cursor: default;
+}
