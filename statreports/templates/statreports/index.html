@@ -34,11 +34,13 @@
   </head>
 
   <body>
-    <div>Data for {{ title }} requests</div>
-    <div>Details {{ timeStamp }}</div>
+    <br>
+    <br>
+    <div>Data for {{ title }} requests {{ timeStamp }}</div>
+    <br>
     <div class="container theme-showcase" role="main">
       <h3>
-        <span>Filter Table Data</span>
+        <!-- <span>Filter Table Data</span> -->
         <input
           type="search"
           placeholder="Search..."
@@ -46,6 +48,8 @@
           data-table="rows-list"
         />
       </h3>
+      <br>
+      <br>
       <table
         class="sortable rows-list ui-responsive"
         border="1"
