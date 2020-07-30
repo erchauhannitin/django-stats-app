@@ -12,11 +12,15 @@
     <title>Stat Reports</title>
     <script src="{% static 'statreports/sorttable.js' %}"></script>
     <script src="{% static 'statreports/misc.js' %}"></script>
-    <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css"> 
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css"
+    />
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-
-    </script>
+    <!-- <script
+      src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js" -->
+    ></script>
 
     <!-- Bootstrap core CSS -->
     <link
@@ -34,13 +38,15 @@
   </head>
 
   <body>
-    <br>
-    <br>
-    <div>Data for {{ title }} requests {{ timeStamp }}</div>
-    <br>
+    <div>
+      <input type="file" onchange="readFile(this)" />
+    </div>
+    <br />
+    <br />
+    <div>Data for <b>{{ title }}</b> requests {{ timeStamp }}</div>
+    <br />
     <div class="container theme-showcase" role="main">
       <h3>
-        <!-- <span>Filter Table Data</span> -->
         <input
           type="search"
           placeholder="Search..."
@@ -48,32 +54,32 @@
           data-table="rows-list"
         />
       </h3>
-      <br>
-      <br>
+      <br />
+      <br />
       <table
         class="sortable rows-list ui-responsive"
         border="1"
-        data-mode="columntoggle" 
+        data-mode="columntoggle"
         data-role="table"
         id="myTable"
       >
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th data-priority="1">Address</th>
-          <th data-priority="2">Count</th>
-          <th data-priority="3">Errors</th>
-        </tr>
-      </thead>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th data-priority="1">Address</th>
+            <th data-priority="2">Count</th>
+            <th data-priority="3">Errors</th>
+          </tr>
+        </thead>
         <tbody>
-        {% for row in rows %}
-        <tr>
-          <td>{{ row.name }}</td>
-          <td>{{ row.address }}</td>
-          <td>{{ row.count }}</td>
-          <td>{{ row.errors }}</td>
-        </tr>
-        {% endfor %}
+          {% for row in rows %}
+          <tr>
+            <td>{{ row.name }}</td>
+            <td>{{ row.address }}</td>
+            <td>{{ row.count }}</td>
+            <td>{{ row.errors }}</td>
+          </tr>
+          {% endfor %}
         </tbody>
       </table>
     </div>
@@ -87,6 +93,7 @@
       {% endif %} {% if rows.has_next %}
       <a href="{% url 'index' %}?page={{rows.next_page_number}}">Next</a>
       {% endif %}
+      <a href="{% url 'all' %}">All</a>
     </div>
     <div class="pagination">
       <span class="step-links">
