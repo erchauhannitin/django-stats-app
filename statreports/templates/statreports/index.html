@@ -11,16 +11,17 @@
 
     <title>Stat Reports</title>
     <script src="{% static 'statreports/sorttable.js' %}"></script>
-    <script src="{% static 'statreports/misc.js' %}"></script>
     <link
       rel="stylesheet"
       href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css"
     />
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-    <!-- <script
-      src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js" -->
-    ></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <link
+      rel="stylesheet"
+      src="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css"
+    />
 
     <!-- Bootstrap core CSS -->
     <link
@@ -35,26 +36,33 @@
 
     <!-- Custom styles for this template -->
     <link href="{% static 'statreports/theme.css' %}" rel="stylesheet" />
+    <script>
+      $(document).ready(function () {
+        $("#myTable").DataTable();
+      });
+
+      document
+        .getElementById("inputFile")
+        .addEventListener("change", function () {
+          var fr = new FileReader();
+          fr.onload = function () {
+            document.getElementById("output").textContent = fr.result;
+          };
+          fr.readAsText(this.files[0]);
+        });
+    </script>
   </head>
 
   <body>
     <div>
-      <input type="file" onchange="readFile(this)" />
+      <input id="inputFile" type="file" />
+      <pre id="output"></pre>
     </div>
     <br />
     <br />
     <div>Data for <b>{{ title }}</b> requests {{ timeStamp }}</div>
     <br />
     <div class="container theme-showcase" role="main">
-      <h3>
-        <input
-          type="search"
-          placeholder="Search..."
-          class="form-control search-input"
-          data-table="rows-list"
-        />
-      </h3>
-      <br />
       <br />
       <table
         class="sortable rows-list ui-responsive"
@@ -85,7 +93,7 @@
     </div>
 
     <br />
-    <div>
+    <!-- <div>
       {% if rows.has_previous %}
       <a href="{% url 'index' %}?page={{rows.previous_page_number}}"
         >Previous</a
@@ -94,8 +102,8 @@
       <a href="{% url 'index' %}?page={{rows.next_page_number}}">Next</a>
       {% endif %}
       <a href="{% url 'all' %}">All</a>
-    </div>
-    <div class="pagination">
+    </div> -->
+    <!-- <div class="pagination">
       <span class="step-links">
         {% if rows.has_previous %}
         <a href="?page=1">&laquo; First</a>
@@ -111,6 +119,6 @@
         <a href="?page={{ rows.paginator.num_pages }}">Last &raquo;</a>
         {% endif %}
       </span>
-    </div>
+    </div> -->
   </body>
 </html>
