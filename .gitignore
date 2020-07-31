@@ -30,3 +30,5 @@ server.txt
 input.txt
 alarm.txt
 .txt
+
+db.sqlite3
