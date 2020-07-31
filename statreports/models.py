@@ -45,3 +45,13 @@ class AlarmRow(models.Model):
 
     def __str__(self):
         return '<Name: {}>'.format(self.name)
+
+
+class PathRow(models.Model):
+    name = models.CharField(max_length=120)
+    error = models.CharField(max_length=40, primary_key=True)
+    count = models.TextField()
+    lastOccurence = models.TextField()
+
+    def __str__(self):
+        return '<Name: {}>'.format(self.name)

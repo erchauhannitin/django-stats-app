@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from .models import ClientRow, ServerRow, AlarmRow
+from .models import ClientRow, ServerRow, AlarmRow, PathRow
 from django.shortcuts import render, redirect
 import re
 from django.core.paginator import Paginator, EmptyPage
@@ -103,47 +103,31 @@ def stats(request):
 
 
 def chars(request):
-    lines = open("./statreports/input/input.txt", 'r').read()
-    blocks = lines.split("\n\n")
-    dest = None
-
-    for block in blocks:
-
-        titles = block.split("\n")
-        dest = open(titles[0] + '.txt', 'w')
-        dest.write(block)
-        dest.close()
-
- 
     try:
-        ClientRow.objects.all().delete()
+        PathRow.objects.all().delete()
     except OperationalError:
         pass  # happens when db doesn't exist yet, views.py should be
 
-    try: 
-        clientFile = open('./client.txt', 'r').readlines()
-        title = clientFile.pop(0)
-        timeStamp = clientFile.pop(0)
-        header = clientFile.pop(0)
 
-        for line in clientFile:
+    try: 
+        pathFile = open('./statreports/input/inputChars.txt', 'r').readlines()
+
+        for line in pathFile:
             words = re.split(r'  +', line.lstrip())
-            NAME, ADDRESS, ACTIVE, INACTIVE, MAX_ACTIVE, COUNT, ERRORS, TIMEOUTS, LATENCY, PEAK_LATENCY, THROUGHPUT = [
-                i for i in words]
-            clientRow = ClientRow(name=NAME, address=ADDRESS, active=ACTIVE, inActive=INACTIVE, maxActive=MAX_ACTIVE,
-                            count=COUNT, errors=ERRORS, timeOuts=TIMEOUTS, latency=LATENCY, peakLatency=PEAK_LATENCY, throughPut=THROUGHPUT)
-            try:
-                clientRow.save()
-            except OperationalError:
-                pass #Ingore errors
+            if(len(words) == 4):
+                NAME, ERROR, COUNT, LAST_OCCURRENCE = [
+                    i for i in words]
+                pathRow = PathRow(name=NAME, error=ERROR, count=COUNT, lastOccurence=LAST_OCCURRENCE)
+                try:
+                    pathRow.save()
+                except OperationalError:
+                    pass #Ingore errors
+            else:
+                print('---------', len(words))
     except OSError:
         pass
 
-    clientRows = ClientRow.objects.order_by('-count')
+    pathRows = PathRow.objects.order_by('-count')
 
-    context = {'clientRows': clientRows, 
-               'header': header,
-               'title': title, 
-               'timeStamp': timeStamp
-               }
+    context = {'pathRows': pathRows }
     return render(request, 'statreports/chars.html', context)

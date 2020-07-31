@@ -66,19 +66,19 @@
       >
         <thead>
           <tr>
-            <th>Name</th>
-            <th data-priority="1">Address</th>
-            <th data-priority="2">Count</th>
-            <th data-priority="3">Errors</th>
+            <th data-priority="1">Name</th>
+            <th data-priority="2">Error</th>
+            <th>Count</th>
+            <th data-priority="3">LastOccurence</th>
           </tr>
         </thead>
         <tbody>
           {% for row in pathRows %}
           <tr>
             <td>{{ row.name }}</td>
-            <td>{{ row.address }}</td>
+            <td>{{ row.error }}</td>
             <td>{{ row.count }}</td>
-            <td>{{ row.errors }}</td>
+            <td>{{ row.lastOccurence }}</td>
           </tr>
           {% endfor %}
         </tbody>
