@@ -1,8 +1,9 @@
 from django.http import HttpResponse
-from .models import ReportRow
+from .models import ClientRow, ServerRow
 from django.shortcuts import render, redirect
 import re
 from django.core.paginator import Paginator, EmptyPage
+from django.db.utils import OperationalError
 
 
 def all(request):
@@ -17,23 +18,53 @@ def all(request):
         dest.write(block)
         dest.close()
 
-    file = open('./client.txt', 'r').readlines()
-    title = file.pop(0)
-    timeStamp = file.pop(0)
-    header = file.pop(0)
+ 
+    try:
+        ClientRow.objects.all().delete()
+        #ServerRow.objects.all().delete()
+    except OperationalError:
+        pass  # happens when db doesn't exist yet, views.py should be
 
-    ReportRow.objects.all().delete()
+    clientFile = open('./client.txt', 'r').readlines()
+    title = clientFile.pop(0)
+    timeStamp = clientFile.pop(0)
+    header = clientFile.pop(0)
 
-    for line in file:
+    for line in clientFile:
         words = re.split(r'  +', line.lstrip())
         NAME, ADDRESS, ACTIVE, INACTIVE, MAX_ACTIVE, COUNT, ERRORS, TIMEOUTS, LATENCY, PEAK_LATENCY, THROUGHPUT = [
             i for i in words]
-        row = ReportRow(name=NAME, address=ADDRESS, active=ACTIVE, inActive=INACTIVE, maxActive=MAX_ACTIVE,
+        clientRow = ClientRow(name=NAME, address=ADDRESS, active=ACTIVE, inActive=INACTIVE, maxActive=MAX_ACTIVE,
                         count=COUNT, errors=ERRORS, timeOuts=TIMEOUTS, latency=LATENCY, peakLatency=PEAK_LATENCY, throughPut=THROUGHPUT)
-        row.save()
+        try:
+            clientRow.save()
+        except OperationalError:
+            pass #Ingore errors
 
-    rows = ReportRow.objects.order_by('-count')
+    serverFile = open('./server.txt', 'r').readlines()
+    title = serverFile.pop(0)
+    timeStamp = serverFile.pop(0)
+    header = serverFile.pop(0)
 
-    context = {'rows': rows, 'header': header,
-               'title': title, 'timeStamp': timeStamp}
+    for line in serverFile:
+        words = re.split(r'  +', line.lstrip())
+        NAME, ADDRESS, ACTIVE, MAX_ACTIVE, COUNT, ERRORS, LATENCY, PEAK_LATENCY, THROUGHPUT = [
+            i for i in words]
+        serverRow = ServerRow(name=NAME, address=ADDRESS, active=ACTIVE, maxActive=MAX_ACTIVE,
+                        count=COUNT, errors=ERRORS, latency=LATENCY, peakLatency=PEAK_LATENCY, throughPut=THROUGHPUT)
+        try:
+            print(serverRow)
+            serverRow.save()
+        except OperationalError:
+            pass #Ingore errors
+
+    clientRows = ClientRow.objects.order_by('-count')
+    serverRows = ServerRow.objects.order_by('-count')
+
+    context = {'clientRows': clientRows, 
+               'serverRows': serverRows, 
+               'header': header,
+               'title': title, 
+               'timeStamp': timeStamp
+               }
     return render(request, 'statreports/index.html', context)

@@ -1,4 +1,5 @@
 from django.contrib import admin
-from .models import ReportRow
+from .models import ClientRow, ServerRow
 
-admin.site.register(ReportRow)
+admin.site.register(ClientRow)
+admin.site.register(ServerRow)

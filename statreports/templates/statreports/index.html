@@ -55,7 +55,7 @@
     </div>
     <br />
     <br />
-    <div>Data for <b>{{ title }}</b> requests {{ timeStamp }}</div>
+    <div>{{ timeStamp }}</div>
     <br />
     <div class="container theme-showcase" role="main">
       <br />
@@ -81,7 +81,7 @@
           </tr>
         </thead>
         <tbody>
-          {% for row in rows %}
+          {% for row in clientRows %}
           <tr>
             <td>{{ row.name }}</td>
             <td>{{ row.address }}</td>
@@ -109,7 +109,7 @@
           </tr>
         </thead>
         <tbody>
-          {% for row in rows %}
+          {% for row in serverRows %}
           <tr>
             <td>{{ row.name }}</td>
             <td>{{ row.address }}</td>
