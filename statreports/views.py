@@ -6,7 +6,7 @@ from django.core.paginator import Paginator, EmptyPage
 from django.db.utils import OperationalError
 
 
-def all(request):
+def stats(request):
     lines = open("./statreports/input/input.txt", 'r').read()
     blocks = lines.split("\n\n")
     dest = None
@@ -99,4 +99,51 @@ def all(request):
                'title': title, 
                'timeStamp': timeStamp
                }
-    return render(request, 'statreports/index.html', context)
+    return render(request, 'statreports/stats.html', context)
+
+
+def chars(request):
+    lines = open("./statreports/input/input.txt", 'r').read()
+    blocks = lines.split("\n\n")
+    dest = None
+
+    for block in blocks:
+
+        titles = block.split("\n")
+        dest = open(titles[0] + '.txt', 'w')
+        dest.write(block)
+        dest.close()
+
+ 
+    try:
+        ClientRow.objects.all().delete()
+    except OperationalError:
+        pass  # happens when db doesn't exist yet, views.py should be
+
+    try: 
+        clientFile = open('./client.txt', 'r').readlines()
+        title = clientFile.pop(0)
+        timeStamp = clientFile.pop(0)
+        header = clientFile.pop(0)
+
+        for line in clientFile:
+            words = re.split(r'  +', line.lstrip())
+            NAME, ADDRESS, ACTIVE, INACTIVE, MAX_ACTIVE, COUNT, ERRORS, TIMEOUTS, LATENCY, PEAK_LATENCY, THROUGHPUT = [
+                i for i in words]
+            clientRow = ClientRow(name=NAME, address=ADDRESS, active=ACTIVE, inActive=INACTIVE, maxActive=MAX_ACTIVE,
+                            count=COUNT, errors=ERRORS, timeOuts=TIMEOUTS, latency=LATENCY, peakLatency=PEAK_LATENCY, throughPut=THROUGHPUT)
+            try:
+                clientRow.save()
+            except OperationalError:
+                pass #Ingore errors
+    except OSError:
+        pass
+
+    clientRows = ClientRow.objects.order_by('-count')
+
+    context = {'clientRows': clientRows, 
+               'header': header,
+               'title': title, 
+               'timeStamp': timeStamp
+               }
+    return render(request, 'statreports/chars.html', context)

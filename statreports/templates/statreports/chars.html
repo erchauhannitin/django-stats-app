@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <title>Char Reports</title>
+    <script src="{% static 'statreports/sorttable.js' %}"></script>
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css"
+    />
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <link
+      rel="stylesheet"
+      src="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css"
+    />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <!-- Bootstrap core CSS -->
+    <link
+      href="{% static 'statreports/bootstrap.min.css' %}"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap theme -->
+    <link
+      href="{% static 'statreports/bootstrap-theme.min.css' %}"
+      rel="stylesheet"
+    />
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'statreports/theme.css' %}" rel="stylesheet" />
+    <script>
+      $(document).ready(function () {
+        $("#pathTable").DataTable();
+      });
+      $(document).ready(function () {
+        $("#menuTable").DataTable();
+      });
+    </script>
+  </head>
+
+  <body>
+    <br />
+    <div class="container theme-showcase" role="main">
+      <br />
+        <ul class="nav nav-tabs">
+          <li class="active"><a data-toggle="tab" href="#path">Path</a></li>
+          <li><a data-toggle="tab" href="#menu">Menu</a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="client" class="tab-pane fade in active">
+      <table
+        class="sortable rows-list ui-responsive"
+        border="1"
+        data-mode="columntoggle"
+        data-role="table"
+        id="pathTable"
+      >
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th data-priority="1">Address</th>
+            <th data-priority="2">Count</th>
+            <th data-priority="3">Errors</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in pathRows %}
+          <tr>
+            <td>{{ row.name }}</td>
+            <td>{{ row.address }}</td>
+            <td>{{ row.count }}</td>
+            <td>{{ row.errors }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      </div>
+
+      </div>
+    </div>
+    <br />
+  </body>
+</html>
