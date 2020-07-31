@@ -22,7 +22,8 @@
       rel="stylesheet"
       src="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css"
     />
-
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <!-- Bootstrap core CSS -->
     <link
       href="{% static 'statreports/bootstrap.min.css' %}"
@@ -38,18 +39,12 @@
     <link href="{% static 'statreports/theme.css' %}" rel="stylesheet" />
     <script>
       $(document).ready(function () {
-        $("#myTable").DataTable();
+        $("#clientTable").DataTable();
+      });
+      $(document).ready(function () {
+        $("#serverTable").DataTable();
       });
 
-      document
-        .getElementById("inputFile")
-        .addEventListener("change", function () {
-          var fr = new FileReader();
-          fr.onload = function () {
-            document.getElementById("output").textContent = fr.result;
-          };
-          fr.readAsText(this.files[0]);
-        });
     </script>
   </head>
 
@@ -64,12 +59,18 @@
     <br />
     <div class="container theme-showcase" role="main">
       <br />
+        <ul class="nav nav-tabs">
+          <li class="active"><a data-toggle="tab" href="#client">Client</a></li>
+          <li><a data-toggle="tab" href="#server">Server</a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="client" class="tab-pane fade in active">
       <table
         class="sortable rows-list ui-responsive"
         border="1"
         data-mode="columntoggle"
         data-role="table"
-        id="myTable"
+        id="clientTable"
       >
         <thead>
           <tr>
@@ -90,35 +91,37 @@
           {% endfor %}
         </tbody>
       </table>
-    </div>
+      </div>
 
-    <br />
-    <!-- <div>
-      {% if rows.has_previous %}
-      <a href="{% url 'index' %}?page={{rows.previous_page_number}}"
-        >Previous</a
+    <div id="server" class="tab-pane fade">
+      <table
+        class="sortable rows-list ui-responsive"
+        border="1"
+        data-mode="columntoggle"
+        data-role="table"
+        id="serverTable"
       >
-      {% endif %} {% if rows.has_next %}
-      <a href="{% url 'index' %}?page={{rows.next_page_number}}">Next</a>
-      {% endif %}
-      <a href="{% url 'all' %}">All</a>
-    </div> -->
-    <!-- <div class="pagination">
-      <span class="step-links">
-        {% if rows.has_previous %}
-        <a href="?page=1">&laquo; First</a>
-        <a href="?page={{ rows.previous_page_number }}">Previous</a>
-        {% endif %}
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th data-priority="1">Address</th>
+            <th data-priority="2">Errors</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in rows %}
+          <tr>
+            <td>{{ row.name }}</td>
+            <td>{{ row.address }}</td>
+            <td>{{ row.errors }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      </div>
 
-        <span class="current">
-          Page {{ rows.number }} of {{ rows.paginator.num_pages }}.
-        </span>
-
-        {% if rows.has_next %}
-        <a href="?page={{ rows.next_page_number }}">Next</a>
-        <a href="?page={{ rows.paginator.num_pages }}">Last &raquo;</a>
-        {% endif %}
-      </span>
-    </div> -->
+      </div>
+    </div>
+    <br />
   </body>
 </html>
