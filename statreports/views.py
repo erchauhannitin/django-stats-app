@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from .models import ClientRow, ServerRow
+from .models import ClientRow, ServerRow, AlarmRow
 from django.shortcuts import render, redirect
 import re
 from django.core.paginator import Paginator, EmptyPage
@@ -58,11 +58,31 @@ def all(request):
         except OperationalError:
             pass #Ingore errors
 
+
+    alarmFile = open('./alarm.txt', 'r').readlines()
+    title = alarmFile.pop(0)
+    timeStamp = alarmFile.pop(0)
+    header = alarmFile.pop(0)
+
+    for line in alarmFile:
+        words = re.split(r'  +', line.lstrip())
+        NAME, MODULE, ID, DESCRIPTION, RAISED, LAST_RAISED, CLEARED, LAST_CLEARED = [
+            i for i in words]
+        alarmRow = AlarmRow(name=NAME, module=MODULE, id=ID, description=DESCRIPTION,
+                        raised=RAISED, lastRaised=LAST_RAISED, cleared=CLEARED, lastCleared=LAST_CLEARED)
+        try:
+            print(alarmRow)
+            alarmRow.save()
+        except OperationalError:
+            pass #Ingore errors
+
     clientRows = ClientRow.objects.order_by('-count')
     serverRows = ServerRow.objects.order_by('-count')
+    alarmRows = AlarmRow.objects.order_by('-module')
 
     context = {'clientRows': clientRows, 
                'serverRows': serverRows, 
+               'alarmRows': alarmRows, 
                'header': header,
                'title': title, 
                'timeStamp': timeStamp

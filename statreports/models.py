@@ -31,3 +31,17 @@ class ServerRow(models.Model):
 
     def __str__(self):
         return '<Name: {}>'.format(self.name)
+
+
+class AlarmRow(models.Model):
+    name = models.CharField(max_length=40)
+    module = models.CharField(max_length=25, primary_key=True)
+    id = models.IntegerField()
+    description = models.TextField()
+    raised = models.IntegerField()
+    lastRaised = models.TextField()
+    cleared = models.IntegerField()
+    lastCleared = models.CharField(max_length=30)
+
+    def __str__(self):
+        return '<Name: {}>'.format(self.name)
