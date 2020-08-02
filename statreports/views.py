@@ -7,6 +7,7 @@ from django.db.utils import OperationalError
 from .forms import InputFileForm
 import shutil
 import os
+from django.contrib import messages
 
 
 def stats(request):
@@ -71,25 +72,32 @@ def home(request):
 
 def handle_uploaded_file(request):
     f = request.FILES["inputFile"]
-    with open('./statreports/input/'+f.name, 'wb+') as destination:
-        for chunk in f.chunks():
-            destination.write(chunk)
-        lines = open('./statreports/input/'+f.name, 'r').read()
-    blocks = lines.split("\n\n")
-    dest = None
+    try:
+        with open('./statreports/input/'+f.name, 'wb+') as destination:
+            for chunk in f.chunks():
+                destination.write(chunk)
+            lines = open('./statreports/input/'+f.name, 'r').read()
+        blocks = lines.split("\n\n")
+        dest = None
 
-    clearsPreviousOutput(request)
+        clearsPreviousOutput(request)
 
-    for block in blocks:
+        for block in blocks:
 
-        titles = block.split("\n")
-        dest = open('./statreports/output/'+titles[0] + '.txt', 'w')
-        dest.write(block)
-        dest.close()
+            titles = block.split("\n")
+            dest = open('./statreports/output/'+titles[0] + '.txt', 'w')
+            dest.write(block)
+            dest.close()
 
-    handleClient(request)
-    handleServer(request)
-    handleAlarm(request)
+    except IOError:
+        print('Input file is not correct, check if it is valid statistics report')
+        messages.add_message(request, messages.ERROR,
+                             'Invalid input stats file')
+        pass
+
+        handleClient(request)
+        handleServer(request)
+        handleAlarm(request)
 
 
 def clearsPreviousOutput(request):
@@ -127,7 +135,8 @@ def handleClient(request):
             try:
                 clientRow.save()
             except OperationalError:
-                print('Unable to save client data, probably not in correct format', name)
+                print(
+                    'Unable to save client data, probably not in correct format', clientRow)
                 pass
     except OSError:
         print('No client data found')
@@ -150,7 +159,8 @@ def handleServer(request):
             try:
                 serverRow.save()
             except OperationalError:
-                print('Unable to save server data, probably not in correct format', name)
+                print(
+                    'Unable to save server data, probably not in correct format', serverRow)
                 pass
     except OSError:
         print('No server data found')
@@ -172,7 +182,8 @@ def handleAlarm(request):
                                 raised=RAISED, lastRaised=LAST_RAISED, cleared=CLEARED, lastCleared=LAST_CLEARED)
             try:
                 alarmRow.save()
-                print('Unable to save alarm data, probably not in correct format', name)
+                print(
+                    'Unable to save alarm data, probably not in correct format', alarmRow)
             except OperationalError:
                 pass
     except OSError:
