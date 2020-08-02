@@ -22,13 +22,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-client.txt
-cluster.txt
-serviceprovider.txt
-gc.txt
-server.txt
-input.txt
-alarm.txt
-.txt
+**/input
+**/output
 
 db.sqlite3

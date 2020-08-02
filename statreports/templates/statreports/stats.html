@@ -22,8 +22,11 @@
       rel="stylesheet"
       src="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css"
     />
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <!-- Bootstrap core CSS -->
     <link
       href="{% static 'statreports/bootstrap.min.css' %}"
@@ -47,7 +50,6 @@
       $(document).ready(function () {
         $("#alarmTable").DataTable();
       });
-
     </script>
   </head>
 
@@ -57,102 +59,100 @@
     <br />
     <div class="container theme-showcase" role="main">
       <br />
-        <ul class="nav nav-tabs">
-          <li class="active"><a data-toggle="tab" href="#client">Client</a></li>
-          <li><a data-toggle="tab" href="#server">Server</a></li>
-          <li><a data-toggle="tab" href="#alarm">Alarm</a></li>
-        </ul>
-        <div class="tab-content">
-            <div id="client" class="tab-pane fade in active">
-      <table
-        class="sortable rows-list ui-responsive"
-        border="1"
-        data-mode="columntoggle"
-        data-role="table"
-        id="clientTable"
-      >
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th data-priority="1">Address</th>
-            <th data-priority="2">Count</th>
-            <th data-priority="3">Errors</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for row in clientRows %}
-          <tr>
-            <td>{{ row.name }}</td>
-            <td>{{ row.address }}</td>
-            <td>{{ row.count }}</td>
-            <td>{{ row.errors }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-      </div>
+      <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#client">Client</a></li>
+        <li><a data-toggle="tab" href="#server">Server</a></li>
+        <li><a data-toggle="tab" href="#alarm">Alarm</a></li>
+      </ul>
+      <div class="tab-content">
+        <div id="client" class="tab-pane fade in active">
+          <table
+            class="sortable rows-list ui-responsive"
+            border="1"
+            data-mode="columntoggle"
+            data-role="table"
+            id="clientTable"
+          >
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th data-priority="1">Address</th>
+                <th data-priority="2">Count</th>
+                <th data-priority="3">Errors</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in clientRows %}
+              <tr>
+                <td>{{ row.name }}</td>
+                <td>{{ row.address }}</td>
+                <td>{{ row.count }}</td>
+                <td>{{ row.errors }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
 
-    <div id="server" class="tab-pane fade">
-      <table
-        class="sortable rows-list ui-responsive"
-        border="1"
-        data-mode="columntoggle"
-        data-role="table"
-        id="serverTable"
-      >
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th data-priority="1">Address</th>
-            <th data-priority="2">Errors</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for row in serverRows %}
-          <tr>
-            <td>{{ row.name }}</td>
-            <td>{{ row.address }}</td>
-            <td>{{ row.errors }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-      </div>
+        <div id="server" class="tab-pane fade">
+          <table
+            class="sortable rows-list ui-responsive"
+            border="1"
+            data-mode="columntoggle"
+            data-role="table"
+            id="serverTable"
+          >
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th data-priority="1">Address</th>
+                <th data-priority="2">Errors</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in serverRows %}
+              <tr>
+                <td>{{ row.name }}</td>
+                <td>{{ row.address }}</td>
+                <td>{{ row.errors }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
 
-
-    <div id="alarm" class="tab-pane fade">
-      <table
-        class="sortable rows-list ui-responsive"
-        border="1"
-        data-mode="columntoggle"
-        data-role="table"
-        id="alarmTable"
-      >
-        <thead>
-          <tr>
-            <th data-priority="1">Name</th>
-            <th>Module</th>
-            <th data-priority="2">Id</th>
-            <th data-priority="3">Description</th>
-            <th data-priority="4">Raised</th>
-            <th data-priority="5">Cleared</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for row in alarmRows %}
-          <tr>
-            <td>{{ row.name }}</td>
-            <td>{{ row.module }}</td>
-            <td>{{ row.id }}</td>
-            <td>{{ row.description }}</td>
-            <td>{{ row.raised }}</td>
-            <td>{{ row.cleared }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-      </div>
-
+        <div id="alarm" class="tab-pane fade">
+          <table
+            class="sortable rows-list ui-responsive"
+            border="1"
+            data-mode="columntoggle"
+            data-role="table"
+            id="alarmTable"
+          >
+            <thead>
+              <tr>
+                <th data-priority="1">Name</th>
+                <th>Module</th>
+                <th data-priority="2">Id</th>
+                <th data-priority="3">Description</th>
+                <th data-priority="4">Raised</th>
+                <th data-priority="5">Cleared</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in alarmRows %}
+              <tr>
+                <td>{{ row.name }}</td>
+                <td>{{ row.module }}</td>
+                <td>{{ row.id }}</td>
+                <td>{{ row.description }}</td>
+                <td>{{ row.raised }}</td>
+                <td>{{ row.cleared }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
     <br />

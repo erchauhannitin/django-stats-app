@@ -9,6 +9,12 @@
     <form method="POST" enctype="multipart/form-data">
       {% csrf_token %} {{ form.as_p }}
       <input type="submit" value="Submit" />
+      <div>
+        <a href="{% url 'stats' %}" target="_blank">Stats</a>
+      </div>
+      <div>
+        <a href="{% url 'chars' %}" target="_blank">Chars</a>
+      </div>
     </form>
   </body>
 </html>

@@ -126,6 +126,7 @@ def handleClient(request):
             except OperationalError:
                 pass
     except OSError:
+        print('No client data found')
         pass
 
 
@@ -148,6 +149,7 @@ def handleServer(request):
             except OperationalError:
                 pass
     except OSError:
+        print('No server data found')
         pass
 
 
@@ -170,4 +172,5 @@ def handleAlarm(request):
             except OperationalError:
                 pass
     except OSError:
+        print('No alarm data found')
         pass
