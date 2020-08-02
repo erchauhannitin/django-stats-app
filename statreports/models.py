@@ -15,7 +15,7 @@ class ClientRow(models.Model):
     throughPut = models.TextField()
 
     def __str__(self):
-        return '<Name: {}>'.format(self.name)
+        return '<Client: {}>'.format(self.name)
 
 
 class ServerRow(models.Model):
@@ -30,7 +30,7 @@ class ServerRow(models.Model):
     throughPut = models.TextField()
 
     def __str__(self):
-        return '<Name: {}>'.format(self.name)
+        return '<Server: {}>'.format(self.name)
 
 
 class AlarmRow(models.Model):
@@ -44,7 +44,7 @@ class AlarmRow(models.Model):
     lastCleared = models.CharField(max_length=30)
 
     def __str__(self):
-        return '<Name: {}>'.format(self.name)
+        return '<Alarm: {}>'.format(self.name)
 
 
 class PathRow(models.Model):
@@ -54,4 +54,4 @@ class PathRow(models.Model):
     lastOccurence = models.TextField()
 
     def __str__(self):
-        return '<Name: {}>'.format(self.name)
+        return '<Path: {}>'.format(self.name)
