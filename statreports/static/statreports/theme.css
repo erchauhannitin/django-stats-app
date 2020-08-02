@@ -75,6 +75,9 @@ body {
   display: block;
 }
 
+.message.tags,
+.message,
+.tags,
 .errorlist {
   color: red;
 }

@@ -17,7 +17,7 @@
     <link href="{% static 'statreports/theme.css' %}" rel="stylesheet" />
   </head>
   <body>
-    <form method="POST" enctype="multipart/form-data">
+    <form method="POST" enctype="multipart/form-data" class="dropzone">
       {% csrf_token %} {{ form.as_p }}
       <input type="submit" value="Upload" />
       <br />

@@ -85,15 +85,17 @@ def handle_uploaded_file(request):
         for block in blocks:
 
             titles = block.split("\n")
+            if titles[0] == '':
+                raise ValueError(
+                    'Input file is not correct, check if it is valid statistics report')
             dest = open('./statreports/output/'+titles[0] + '.txt', 'w')
             dest.write(block)
             dest.close()
 
-    except IOError:
+    except ValueError:
         print('Input file is not correct, check if it is valid statistics report')
         messages.add_message(request, messages.ERROR,
                              'Invalid input stats file')
-        pass
 
         handleClient(request)
         handleServer(request)
