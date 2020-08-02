@@ -52,12 +52,15 @@ def chars(request):
     return render(request, 'statreports/chars.html', context)
 
 
-def file_input(request):
+def home(request):
     context = {}
     if request.POST:
         form = InputFileForm(request.POST, request.FILES)
         if form.is_valid():
             handle_uploaded_file(request)
+            context['form'] = form
+            return render(request, "statreports/home.html", context)
+        else:
             context['form'] = form
             return render(request, "statreports/home.html", context)
     else:
@@ -124,6 +127,7 @@ def handleClient(request):
             try:
                 clientRow.save()
             except OperationalError:
+                print('Unable to save client data, probably not in correct format', name)
                 pass
     except OSError:
         print('No client data found')
@@ -144,9 +148,9 @@ def handleServer(request):
             serverRow = ServerRow(name=NAME, address=ADDRESS, active=ACTIVE, maxActive=MAX_ACTIVE,
                                   count=COUNT, errors=ERRORS, latency=LATENCY, peakLatency=PEAK_LATENCY, throughPut=THROUGHPUT)
             try:
-                print(serverRow)
                 serverRow.save()
             except OperationalError:
+                print('Unable to save server data, probably not in correct format', name)
                 pass
     except OSError:
         print('No server data found')
@@ -167,8 +171,8 @@ def handleAlarm(request):
             alarmRow = AlarmRow(name=NAME, module=MODULE, id=ID, description=DESCRIPTION,
                                 raised=RAISED, lastRaised=LAST_RAISED, cleared=CLEARED, lastCleared=LAST_CLEARED)
             try:
-                print(alarmRow)
                 alarmRow.save()
+                print('Unable to save alarm data, probably not in correct format', name)
             except OperationalError:
                 pass
     except OSError:
