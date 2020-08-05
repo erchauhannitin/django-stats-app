@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from .models import ClientRow, ServerRow, AlarmRow, PathRow
+from .models import ClientRow, ServerRow, AlarmRow
 from django.shortcuts import render, redirect
 import re
 from django.core.paginator import Paginator, EmptyPage
@@ -21,36 +21,6 @@ def stats(request):
                'alarmRows': alarmRows,
                }
     return render(request, 'statreports/stats.html', context)
-
-
-def chars(request):
-    try:
-        PathRow.objects.all().delete()
-    except OperationalError:
-        pass  # happens when db doesn't exist yet, views.py should be
-
-    try:
-        pathFile = open('./statreports/input/inputChars.txt', 'r').readlines()
-        for line in pathFile:
-            words = re.split(r'  +', line.lstrip())
-            if(len(words) == 4):
-                NAME, ERROR, COUNT, LAST_OCCURRENCE = [
-                    i for i in words]
-                pathRow = PathRow(name=NAME, error=ERROR,
-                                  count=COUNT, lastOccurence=LAST_OCCURRENCE)
-                try:
-                    pathRow.save()
-                except OperationalError:
-                    pass  # Ingore errors
-            else:
-                print('---------', len(words))
-    except OSError:
-        pass
-
-    pathRows = PathRow.objects.order_by('-count')
-
-    context = {'pathRows': pathRows}
-    return render(request, 'statreports/chars.html', context)
 
 
 def home(request):
@@ -86,6 +56,8 @@ def handle_uploaded_file(request):
 
             titles = block.split("\n")
             if titles[0] == '':
+                shutil.rmtree('./statreports/input/')
+                os.makedirs('./statreports/input/')
                 raise ValueError(
                     'Input file is not correct, check if it is valid statistics report')
             dest = open('./statreports/output/'+titles[0] + '.txt', 'w')
@@ -97,9 +69,9 @@ def handle_uploaded_file(request):
         messages.add_message(request, messages.ERROR,
                              'Invalid input stats file')
 
-        handleClient(request)
-        handleServer(request)
-        handleAlarm(request)
+    handleClient(request)
+    handleServer(request)
+    handleAlarm(request)
 
 
 def clearsPreviousOutput(request):
@@ -184,9 +156,9 @@ def handleAlarm(request):
                                 raised=RAISED, lastRaised=LAST_RAISED, cleared=CLEARED, lastCleared=LAST_CLEARED)
             try:
                 alarmRow.save()
+            except OperationalError:
                 print(
                     'Unable to save alarm data, probably not in correct format', alarmRow)
-            except OperationalError:
                 pass
     except OSError:
         print('No alarm data found')
