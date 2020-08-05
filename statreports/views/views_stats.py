@@ -1,10 +1,9 @@
 from django.http import HttpResponse
-from .models import ClientRow, ServerRow, AlarmRow
+from statreports.models import ClientRow, ServerRow, AlarmRow
 from django.shortcuts import render, redirect
 import re
-from django.core.paginator import Paginator, EmptyPage
 from django.db.utils import OperationalError
-from .forms import InputFileForm
+from statreports.forms import InputFileForm
 import shutil
 import os
 from django.contrib import messages
