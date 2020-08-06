@@ -13,6 +13,6 @@ def validate_file_size(value):
         return value
 
 
-class InputFileForm(forms.Form):
-    inputFile = forms.FileField(
+class InputCharsFileForm(forms.Form):
+    input_Chars_File = forms.FileField(
         validators=[FileExtensionValidator(allowed_extensions=['txt']), validate_file_size])

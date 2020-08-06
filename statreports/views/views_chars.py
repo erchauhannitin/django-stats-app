@@ -3,7 +3,7 @@ from statreports.models import PathRow
 from django.shortcuts import render, redirect
 import re
 from django.db.utils import OperationalError
-from statreports.forms import InputFileForm
+from statreports.forms import InputStatsFileForm
 import shutil
 import os
 from django.contrib import messages

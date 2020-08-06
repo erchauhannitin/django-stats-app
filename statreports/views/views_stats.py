@@ -3,7 +3,7 @@ from statreports.models import ClientRow, ServerRow, AlarmRow
 from django.shortcuts import render, redirect
 import re
 from django.db.utils import OperationalError
-from statreports.forms import InputFileForm
+from statreports.forms import InputStatsFileForm
 import shutil
 import os
 from django.contrib import messages
@@ -25,7 +25,7 @@ def stats(request):
 def home(request):
     context = {}
     if request.POST:
-        form = InputFileForm(request.POST, request.FILES)
+        form = InputStatsFileForm(request.POST, request.FILES)
         if form.is_valid():
             handle_uploaded_file(request)
             context['form'] = form
@@ -34,13 +34,13 @@ def home(request):
             context['form'] = form
             return render(request, "statreports/home.html", context)
     else:
-        form = InputFileForm()
+        form = InputStatsFileForm()
         context['form'] = form
         return render(request, "statreports/home.html", context)
 
 
 def handle_uploaded_file(request):
-    f = request.FILES["inputFile"]
+    f = request.FILES["input_Stats_File"]
     try:
         with open('./statreports/input/'+f.name, 'wb+') as destination:
             for chunk in f.chunks():
