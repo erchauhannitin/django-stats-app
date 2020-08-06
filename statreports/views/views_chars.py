@@ -3,7 +3,7 @@ from statreports.models import PathRow
 from django.shortcuts import render, redirect
 import re
 from django.db.utils import OperationalError
-from statreports.forms import InputStatsFileForm
+from statreports.forms import InputCharsFileForm
 import shutil
 import os
 from django.contrib import messages
@@ -20,7 +20,7 @@ def chars(request):
 def home_char(request):
     context = {}
     if request.POST:
-        form = InputFileForm(request.POST, request.FILES)
+        form = InputCharsFileForm(request.POST, request.FILES)
         if form.is_valid():
             handle_uploaded_file(request)
             context['form'] = form
@@ -29,7 +29,7 @@ def home_char(request):
             context['form'] = form
             return render(request, "statreports/home.html", context)
     else:
-        form = InputFileForm()
+        form = InputCharsFileForm()
         context['form'] = form
         return render(request, "statreports/home.html", context)
 

@@ -1,3 +1,4 @@
+from .forms_stats import *
 from django import forms
 from django.core.validators import FileExtensionValidator
 from django.core.exceptions import ValidationError
