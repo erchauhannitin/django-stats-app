@@ -5,6 +5,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Input file for stat reports</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <!-- Bootstrap theme -->
     <link
       href="{% static 'statreports/bootstrap.min.css' %}"
@@ -17,27 +23,70 @@
     <link href="{% static 'statreports/theme.css' %}" rel="stylesheet" />
   </head>
   <body>
-    <form method="POST" enctype="multipart/form-data" class="dropzone">
-      {% csrf_token %} {{ form.as_p }}
-      <input type="submit" value="Upload" />
+    <div class="container theme-showcase" role="main">
       <br />
-      <br />
-      <div>
-        <a href="{% url 'stats' %}" target="_blank">Stats</a>
+      <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#stats">Stats</a></li>
+        <li><a data-toggle="tab" href="#chars">Chars</a></li>
+      </ul>
+      <div class="tab-content">
+        <div id="stats" class="tab-pane fade in active">
+          <form method="POST" enctype="multipart/form-data" class="dropzone">
+            {% csrf_token %} {{ form.as_p }}
+            <input type="submit" value="Upload Stats" />
+            <br />
+            <br />
+            <div>
+              <a
+                href="{% url 'stats' %}"
+                target="_blank"
+                title="Click this link once you upload the file"
+                >Stats</a
+              >
+            </div>
+            <br />
+            <div>
+              {% if messages %}
+              <ul class="messages">
+                {% for message in messages %}
+                <li class="danger">{{ message }}</li>
+                {% endfor %}
+              </ul>
+              {% endif %}
+            </div>
+          </form>
+        </div>
+        <div id="chars" class="tab-pane fade">
+          <form
+            method="POST"
+            enctype="multipart/form-data"
+            class="ui-responsive dropzone"
+          >
+            {% csrf_token %} {{ form.as_p }}
+            <input type="submit" value="Upload Chars" />
+            <br />
+            <br />
+            <br />
+            <div>
+              <a
+                href="{% url 'chars' %}"
+                target="_blank"
+                title="Click this link once you upload the file"
+                >Chars</a
+              >
+            </div>
+            <div>
+              {% if messages %}
+              <ul class="messages">
+                {% for message in messages %}
+                <li class="danger">{{ message }}</li>
+                {% endfor %}
+              </ul>
+              {% endif %}
+            </div>
+          </form>
+        </div>
       </div>
-      <br />
-      <div>
-        <a href="{% url 'chars' %}" target="_blank">Chars</a>
-      </div>
-      <div>
-        {% if messages %}
-        <ul class="messages">
-          {% for message in messages %}
-          <li class="danger">{{ message }}</li>
-          {% endfor %}
-        </ul>
-        {% endif %}
-      </div>
-    </form>
+    </div>
   </body>
 </html>
