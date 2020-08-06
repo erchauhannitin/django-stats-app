@@ -1,6 +1,13 @@
 body {
   padding-top: 70px;
   padding-bottom: 30px;
+  background: rgb(54, 217, 182);
+  background: linear-gradient(
+    90deg,
+    rgba(54, 217, 182, 1) 0%,
+    rgba(32, 152, 126, 1) 43%,
+    rgba(0, 212, 255, 1) 100%
+  );
 }
 
 .theme-dropdown .dropdown-menu {
@@ -56,16 +63,6 @@ table tr::before {
   padding-right: 0.3em;
   text-align: right;
   font-family: "Calibri (Body)";
-}
-
-body {
-  background-color: white;
-  color: black;
-}
-
-.dark-mode {
-  background-color: black;
-  color: white;
 }
 
 .hidden {
