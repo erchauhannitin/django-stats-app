@@ -22,8 +22,11 @@
       rel="stylesheet"
       src="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css"
     />
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <!-- Bootstrap core CSS -->
     <link
       href="{% static 'statreports/bootstrap.min.css' %}"
@@ -39,10 +42,7 @@
     <link href="{% static 'statreports/theme.css' %}" rel="stylesheet" />
     <script>
       $(document).ready(function () {
-        $("#pathTable").DataTable();
-      });
-      $(document).ready(function () {
-        $("#menuTable").DataTable();
+        $("#charsTable").DataTable();
       });
     </script>
   </head>
@@ -51,40 +51,38 @@
     <br />
     <div class="container theme-showcase" role="main">
       <br />
-        <ul class="nav nav-tabs">
-          <li class="active"><a data-toggle="tab" href="#path">Path</a></li>
-          <li><a data-toggle="tab" href="#menu">Menu</a></li>
-        </ul>
-        <div class="tab-content">
-            <div id="client" class="tab-pane fade in active">
-      <table
-        class="sortable rows-list ui-responsive"
-        border="1"
-        data-mode="columntoggle"
-        data-role="table"
-        id="pathTable"
-      >
-        <thead>
-          <tr>
-            <th data-priority="1">Name</th>
-            <th data-priority="2">Error</th>
-            <th>Count</th>
-            <th data-priority="3">LastOccurence</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for row in pathRows %}
-          <tr>
-            <td>{{ row.name }}</td>
-            <td>{{ row.error }}</td>
-            <td>{{ row.count }}</td>
-            <td>{{ row.lastOccurence }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-      </div>
-
+      <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#chars">Chars</a></li>
+      </ul>
+      <div class="tab-content">
+        <div id="chars" class="tab-pane fade in active">
+          <table
+            class="sortable rows-list ui-responsive"
+            border="1"
+            data-mode="columntoggle"
+            data-role="table"
+            id="charsTable"
+          >
+            <thead>
+              <tr>
+                <th data-priority="1">Name</th>
+                <th data-priority="2">Error</th>
+                <th>Count</th>
+                <th data-priority="3">LastOccurence</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in charsRows %}
+              <tr>
+                <td>{{ row.name }}</td>
+                <td>{{ row.error }}</td>
+                <td>{{ row.count }}</td>
+                <td>{{ row.lastOccurence }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
     <br />

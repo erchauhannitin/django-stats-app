@@ -47,9 +47,9 @@ class AlarmRow(models.Model):
         return '<Alarm: {}>'.format(self.name)
 
 
-class PathRow(models.Model):
+class CharsRow(models.Model):
     name = models.CharField(max_length=120)
-    error = models.CharField(max_length=40, primary_key=True)
+    error = models.CharField(max_length=40)
     count = models.TextField()
     lastOccurence = models.TextField()
 

@@ -31,9 +31,9 @@
       </ul>
       <div class="tab-content">
         <div id="stats" class="tab-pane fade in active">
-          <form method="POST" enctype="multipart/form-data" class="dropzone">
+          <form method="POST" enctype="multipart/form-data">
             {% csrf_token %} {{ form.as_p }}
-            <input type="submit" value="Upload Stats" name="stats_name" />
+            <input type="submit" value="Upload Stats" />
             <br />
             <br />
             <div>
@@ -57,14 +57,9 @@
           </form>
         </div>
         <div id="chars" class="tab-pane fade">
-          <form
-            method="POST"
-            enctype="multipart/form-data"
-            class="dropzone"
-            action="/submit_chars"
-          >
+          <form method="POST" enctype="multipart/form-data" action="/home_char">
             {% csrf_token %} {{ form.as_p }}
-            <input type="submit" value="Upload Chars" name="chars_name" />
+            <input type="submit" value="Upload Chars" />
             <br />
             <br />
 
@@ -81,7 +76,7 @@
                   href="{% url 'chars' %}"
                   target="_blank"
                   title="Click this link once you upload the file"
-                  >Stats</a
+                  >Chars</a
                 >
               </div>
               {% endif %}

@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from statreports.models import PathRow
+from statreports.models import CharsRow
 from django.shortcuts import render, redirect
 import re
 from django.db.utils import OperationalError
@@ -11,9 +11,9 @@ from django.contrib import messages
 
 def chars(request):
 
-    pathRows = PathRow.objects.order_by('-count')
+    charsRows = CharsRow.objects.order_by('-count')
 
-    context = {'pathRows': pathRows}
+    context = {'charsRows': charsRows}
     return render(request, 'statreports/chars.html', context)
 
 
@@ -52,42 +52,51 @@ def clearsPreviousOutput(request):
         pass
 
     try:
-        PathRow.objects.all().delete()
+        CharsRow.objects.all().delete()
     except OperationalError:
         pass
 
 
 def handlePath(request):
 
-    f = request.FILES["inputFile"]
+    f = request.FILES["input_Chars_File"]
     try:
-        pathFile = open('./statreports/input/'+f.name, 'r').readlines()
-        for line in pathFile:
-            previousRow
+        with open('./statreports/input/'+f.name, 'wb+') as destination:
+            for chunk in f.chunks():
+                destination.write(chunk)
+            lines = open('./statreports/input/'+f.name, 'r').readlines()
+            header = lines.pop(0)
+
+        for line in lines:
+
             words = re.split(r'  +', line.lstrip())
             if(len(words) == 4):
                 NAME, ERROR, COUNT, LAST_OCCURRENCE = [
                     i for i in words]
-                pathRow, previousRow = PathRow(name=NAME, error=ERROR,
-                                               count=COUNT, lastOccurence=LAST_OCCURRENCE)
+                charsRow = CharsRow(name=NAME, error=ERROR,
+                                    count=COUNT, lastOccurence=LAST_OCCURRENCE)
+                previousRow = charsRow
                 try:
-                    pathRow.save()
+                    charsRow.save()
                 except OperationalError:
                     print(
-                        'Unable to save char data, probably not in correct format', pathRow)
+                        'Unable to save char data, probably not in correct format', charsRow)
                     pass
             elif(len(words) == 3):
                 ERROR, COUNT, LAST_OCCURRENCE = [
                     i for i in words]
-                print('previous Row', previousRow)
-                # pathRow = PathRow(previousRow['name']=NAME, error=ERROR,
-                #                   count=COUNT, lastOccurence=LAST_OCCURRENCE)
-                # try:
-                #     pathRow.save()
-                # except OperationalError:
-                #     print(
-                #         'Unable to save char data, probably not in correct format', pathRow)
-                #     pass
+                charsRow = CharsRow(name=previousRow.name, error=ERROR,
+                                    count=COUNT, lastOccurence=LAST_OCCURRENCE)
+                try:
+                    charsRow.save()
+                except OperationalError:
+                    print(
+                        'Unable to save char data, probably not in correct format', charsRow)
+                    pass
+                else:
+                    print('line  ---   ', line)
+                    print('length  ', len(words))
+                    print(words)
     except OSError:
         print('No char data found')
         pass
