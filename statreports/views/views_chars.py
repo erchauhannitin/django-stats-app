@@ -93,10 +93,7 @@ def handlePath(request):
                     print(
                         'Unable to save char data, probably not in correct format', charsRow)
                     pass
-                else:
-                    print('line  ---   ', line)
-                    print('length  ', len(words))
-                    print(words)
+
     except OSError:
         print('No char data found')
         pass

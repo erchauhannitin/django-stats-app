@@ -22,7 +22,7 @@ def stats(request):
     return render(request, 'statreports/stats.html', context)
 
 
-def home(request):
+def home_stat(request):
     context = {}
     if request.POST:
         form = InputStatsFileForm(request.POST, request.FILES)

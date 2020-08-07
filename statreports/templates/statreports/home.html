@@ -31,7 +31,7 @@
       </ul>
       <div class="tab-content">
         <div id="stats" class="tab-pane fade in active">
-          <form method="POST" enctype="multipart/form-data">
+          <form method="POST" enctype="multipart/form-data" action="/home_stat">
             {% csrf_token %} {{ form.as_p }}
             <input type="submit" value="Upload Stats" />
             <br />
