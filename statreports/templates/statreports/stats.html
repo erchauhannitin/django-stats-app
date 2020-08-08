@@ -40,7 +40,8 @@
 
     <!-- Custom styles for this template -->
     <link href="{% static 'statreports/theme.css' %}" rel="stylesheet" />
-    <script>
+
+  <script>
       $(document).ready(function () {
         $("#clientTable").DataTable();
       });
@@ -51,21 +52,26 @@
         $("#alarmTable").DataTable();
       });
     </script>
-  </head>
 
+  </head>
   <body>
     <br />
     <div>{{ timeStamp }}</div>
     <br />
+    <div>
     <div class="container theme-showcase" role="main">
       <br />
       <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#client">Client</a></li>
         <li><a data-toggle="tab" href="#server">Server</a></li>
         <li><a data-toggle="tab" href="#alarm">Alarm</a></li>
+        <li><a data-toggle="tab" href="#summary">Summary</a></li>
       </ul>
       <div class="tab-content">
         <div id="client" class="tab-pane fade in active">
+          <div>
+            <input type="checkbox" name="localhost" id="localhost"/>
+          </div>
           <table
             class="sortable rows-list ui-responsive"
             border="1"
@@ -169,8 +175,85 @@
             </tbody>
           </table>
         </div>
+
+        <div id="summary" class="tab-pane fade">
+          <div>
+            <b><h3>Max Error Entries : </h3></b>
+            <table
+            class="sortable rows-list ui-responsive"
+            border="1"
+            data-mode="columntoggle"
+            data-role="table"
+            id="clientTable"
+          >
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th data-priority="1">Address</th>
+                <th data-priority="2">Count</th>
+                <th data-priority="3">Errors</th>
+                <th data-priority="4">Time Outs</th>
+                <th data-priority="5">Latency</th>
+                <th data-priority="6">Peak Latency</th>
+                <th data-priority="7">Through Put</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in maxErrorRows %}
+              <tr>
+                <td>{{ row.name }}</td>
+                <td>{{ row.address }}</td>
+                <td>{{ row.count }}</td>
+                <td>{{ row.errors }}</td>
+                <td>{{ row.timeOuts }}</td>
+                <td>{{ row.latency }}</td>
+                <td>{{ row.peakLatency }}</td>
+                <td>{{ row.throughPut }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          </div>
+          <br/>
+          <br/>
+          <div>
+            <b><h3>Max Count Entries : </h3></b>
+            <table
+            class="sortable rows-list ui-responsive"
+            data-mode="columntoggle"
+            data-role="table"
+            id="clientTable"
+          >
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th data-priority="1">Address</th>
+                <th data-priority="2">Count</th>
+                <th data-priority="3">Errors</th>
+                <th data-priority="4">Time Outs</th>
+                <th data-priority="5">Latency</th>
+                <th data-priority="6">Peak Latency</th>
+                <th data-priority="7">Through Put</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in maxCountRows %}
+              <tr>
+                <td>{{ row.name }}</td>
+                <td>{{ row.address }}</td>
+                <td>{{ row.count }}</td>
+                <td>{{ row.errors }}</td>
+                <td>{{ row.timeOuts }}</td>
+                <td>{{ row.latency }}</td>
+                <td>{{ row.peakLatency }}</td>
+                <td>{{ row.throughPut }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          </div>
+        </div>          
       </div>
     </div>
-    <br />
   </body>
 </html>

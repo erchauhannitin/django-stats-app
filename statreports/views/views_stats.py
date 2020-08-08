@@ -15,9 +15,17 @@ def stats(request):
     serverRows = ServerRow.objects.order_by('-count')
     alarmRows = AlarmRow.objects.order_by('-module')
 
+    maxErrorRow = max(clientRows, key=lambda row: row.errors)
+
+    maxErrorRows = clientRows.order_by('-errors')[0:3]
+    maxCountRows = clientRows.order_by('-count')[0:3]
+
     context = {'clientRows': clientRows,
                'serverRows': serverRows,
                'alarmRows': alarmRows,
+               'maxErrorRow': maxErrorRow,
+               'maxErrorRows': maxErrorRows,
+               'maxCountRows': maxCountRows,
                }
     return render(request, 'statreports/stats.html', context)
 

@@ -48,6 +48,7 @@ class AlarmRow(models.Model):
 
 
 class CharsRow(models.Model):
+    parentName = models.CharField(max_length=120)
     name = models.CharField(max_length=120)
     error = models.CharField(max_length=40)
     count = models.TextField()

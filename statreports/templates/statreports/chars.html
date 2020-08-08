@@ -65,15 +65,17 @@
           >
             <thead>
               <tr>
-                <th data-priority="1">Name</th>
-                <th data-priority="2">Error</th>
+                <th>Parent Name</th>
+                <th>Name</th>
+                <th data-priority="1">Error</th>
                 <th>Count</th>
-                <th data-priority="3">LastOccurence</th>
+                <th data-priority="2">LastOccurence</th>
               </tr>
             </thead>
             <tbody>
               {% for row in charsRows %}
               <tr>
+                <td>{{ row.parentName }}</td>
                 <td>{{ row.name }}</td>
                 <td>{{ row.error }}</td>
                 <td>{{ row.count }}</td>
