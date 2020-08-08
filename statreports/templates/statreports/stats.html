@@ -82,6 +82,7 @@
             <thead>
               <tr>
                 <th>Name</th>
+                <th>Parent Name</th>
                 <th data-priority="1">Address</th>
                 <th data-priority="2">Count</th>
                 <th data-priority="3">Errors</th>
@@ -94,6 +95,7 @@
             <tbody>
               {% for row in clientRows %}
               <tr>
+                <td>{{ row.parentName }}</td>
                 <td>{{ row.name }}</td>
                 <td>{{ row.address }}</td>
                 <td>{{ row.count }}</td>

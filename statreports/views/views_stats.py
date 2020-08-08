@@ -108,17 +108,23 @@ def handleClient(request):
         header = clientFile.pop(0)
 
         for line in clientFile:
-            words = re.split(r'  +', line.lstrip())
-            NAME, ADDRESS, ACTIVE, INACTIVE, MAX_ACTIVE, COUNT, ERRORS, TIMEOUTS, LATENCY, PEAK_LATENCY, THROUGHPUT = [
-                i for i in words]
-            clientRow = ClientRow(name=NAME, address=ADDRESS, active=ACTIVE, inActive=INACTIVE, maxActive=MAX_ACTIVE,
-                                  count=COUNT, errors=ERRORS, timeOuts=TIMEOUTS, latency=LATENCY, peakLatency=PEAK_LATENCY, throughPut=THROUGHPUT)
-            try:
-                clientRow.save()
-            except OperationalError:
-                print(
-                    'Unable to save client data, probably not in correct format', clientRow)
-                pass
+            if(line.startswith(' ')):
+                words = re.split(r'  +', line.lstrip())
+                NAME, ADDRESS, ACTIVE, INACTIVE, MAX_ACTIVE, COUNT, ERRORS, TIMEOUTS, LATENCY, PEAK_LATENCY, THROUGHPUT = [
+                    i for i in words]
+                clientRow = ClientRow(parentName=iteratedParentName, name=NAME, address=ADDRESS, active=ACTIVE, inActive=INACTIVE, maxActive=MAX_ACTIVE,
+                                      count=COUNT, errors=ERRORS, timeOuts=TIMEOUTS, latency=LATENCY, peakLatency=PEAK_LATENCY, throughPut=THROUGHPUT)
+                try:
+                    clientRow.save()
+                except OperationalError:
+                    print(
+                        'Unable to save client data, probably not in correct format', clientRow)
+                    pass
+            else:
+                words = re.split(r'  +', line)
+                iteratedParentName = words[0].replace(
+                    'com.ericsson.em.am', 'c.e.e.a')
+
     except OSError:
         print('No client data found')
         pass
