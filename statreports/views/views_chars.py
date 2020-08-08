@@ -96,7 +96,8 @@ def handlePath(request):
                         pass
             else:
                 words = re.split(r'  +', line)
-                iteratedParentName = words[0]
+                iteratedParentName = words[0].replace(
+                    'com.ericsson.em.am', 'c.e.e.a')
 
     except OSError:
         print('No char data found')
