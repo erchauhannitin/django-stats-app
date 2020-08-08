@@ -95,10 +95,8 @@ def handlePath(request):
                             'Unable to save char data, probably not in correct format', charsRow)
                         pass
             else:
-                print('line', line)
                 words = re.split(r'  +', line)
                 iteratedParentName = words[0]
-                print('iteratedParentName  ', iteratedParentName)
 
     except OSError:
         print('No char data found')
