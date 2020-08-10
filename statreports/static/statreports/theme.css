@@ -82,3 +82,8 @@ table tr::before {
 .error select {
   border: 2px red solid;
 }
+
+tr:hover {
+  cursor: pointer;
+  font-size: 1.3em;
+}
