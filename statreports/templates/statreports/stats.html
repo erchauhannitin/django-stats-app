@@ -10,7 +10,6 @@
     <meta name="author" content="" />
 
     <title>Stat Reports</title>
-    <script src="{% static 'statreports/sorttable.js' %}"></script>
     <link
       rel="stylesheet"
       href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css"
@@ -27,20 +26,30 @@
       href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
     />
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <!-- Bootstrap core CSS -->
-    <link
-      href="{% static 'statreports/bootstrap.min.css' %}"
-      rel="stylesheet"
-    />
-    <!-- Bootstrap theme -->
-    <link
-      href="{% static 'statreports/bootstrap-theme.min.css' %}"
-      rel="stylesheet"
-    />
 
     <!-- Custom styles for this template -->
     <link href="{% static 'statreports/theme.css' %}" rel="stylesheet" />
-
+    <script>
+      var includeLocalHost = true;  
+      $.fn.dataTable.ext.search.push(
+          function( settings, data, dataIndex ) {  
+            return includeLocalHost || !data[2].includes('localhost');              
+          }
+      );
+      $(document).ready(function() {
+          var table = $('#clientTable').DataTable();             
+          $('#localhost').change( function() {
+              if(this.checked){
+                includeLocalHost = true;
+              }
+              else{
+                includeLocalHost = false;
+              }
+              table.draw();
+          } );
+      } );
+    </script>
+ 
   <script>
       $(document).ready(function () {
         $("#clientTable").DataTable();
