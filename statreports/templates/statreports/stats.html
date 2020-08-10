@@ -130,6 +130,7 @@
             <thead>
               <tr>
                 <th>Name</th>
+                <th>Parent Name</th>
                 <th data-priority="1">Address</th>
                 <th data-priority="2">Errors</th>
                 <th data-priority="3">Count</th>
@@ -142,6 +143,7 @@
               {% for row in serverRows %}
               <tr>
                 <td>{{ row.name }}</td>
+                <td>{{ row.parentName }}</td>
                 <td>{{ row.address }}</td>
                 <td>{{ row.count }}</td>
                 <td>{{ row.errors }}</td>

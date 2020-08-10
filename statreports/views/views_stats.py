@@ -138,17 +138,22 @@ def handleServer(request):
         header = serverFile.pop(0)
 
         for line in serverFile:
-            words = re.split(r'  +', line.lstrip())
-            NAME, ADDRESS, ACTIVE, MAX_ACTIVE, COUNT, ERRORS, LATENCY, PEAK_LATENCY, THROUGHPUT = [
-                i for i in words]
-            serverRow = ServerRow(name=NAME, address=ADDRESS, active=ACTIVE, maxActive=MAX_ACTIVE,
-                                  count=COUNT, errors=ERRORS, latency=LATENCY, peakLatency=PEAK_LATENCY, throughPut=THROUGHPUT)
-            try:
-                serverRow.save()
-            except OperationalError:
-                print(
-                    'Unable to save server data, probably not in correct format', serverRow)
-                pass
+            if(line.startswith(' ')):
+                words = re.split(r'  +', line.lstrip())
+                NAME, ADDRESS, ACTIVE, MAX_ACTIVE, COUNT, ERRORS, LATENCY, PEAK_LATENCY, THROUGHPUT = [
+                    i for i in words]
+                serverRow = ServerRow(parentName=iteratedParentName, name=NAME, address=ADDRESS, active=ACTIVE, maxActive=MAX_ACTIVE,
+                                      count=COUNT, errors=ERRORS, latency=LATENCY, peakLatency=PEAK_LATENCY, throughPut=THROUGHPUT)
+                try:
+                    serverRow.save()
+                except OperationalError:
+                    print(
+                        'Unable to save server data, probably not in correct format', serverRow)
+                    pass
+            else:
+                words = re.split(r'  +', line)
+                iteratedParentName = words[0].replace(
+                    'com.ericsson.em.am', 'c.e.e.a')
     except OSError:
         print('No server data found')
         pass
