@@ -99,6 +99,7 @@ def clearsPreviousOutput(request):
         ClientRow.objects.all().delete()
         ServerRow.objects.all().delete()
         AlarmRow.objects.all().delete()
+        ClientParentRow.objects.all().delete()
     except OperationalError:
         pass
 
@@ -117,26 +118,16 @@ def handleClient(request):
                     i for i in words]
                 clientRow = ClientRow(parentName=iteratedParentName, name=NAME, address=ADDRESS, active=ACTIVE, inActive=INACTIVE, maxActive=MAX_ACTIVE,
                                       count=COUNT, errors=ERRORS, timeOuts=TIMEOUTS, latency=LATENCY, peakLatency=PEAK_LATENCY, throughPut=THROUGHPUT)
-                try:
-                    clientRow.save()
-                except OperationalError:
-                    print(
-                        'Unable to save client data, probably not in correct format', clientRow)
-                    pass
+                saveData(clientRow)
             else:
                 words = re.split(r'  +', line)
                 iteratedParentName = words[0].replace(
                     'com.ericsson.em.am', 'c.e.e.a')
                 NAME, ADDRESS, ACTIVE, INACTIVE, MAX_ACTIVE, COUNT, ERRORS, TIMEOUTS, LATENCY, PEAK_LATENCY, THROUGHPUT = [
                     i for i in words]
-                clientParentRow = ClientParentRow(name=NAME, address=ADDRESS, active=ACTIVE, inActive=INACTIVE, maxActive=MAX_ACTIVE,
+                clientParentRow = ClientParentRow(name=iteratedParentName, address=ADDRESS, active=ACTIVE, inActive=INACTIVE, maxActive=MAX_ACTIVE,
                                                   count=COUNT, errors=ERRORS, timeOuts=TIMEOUTS, latency=LATENCY, peakLatency=PEAK_LATENCY, throughPut=THROUGHPUT)
-                try:
-                    clientParentRow.save()
-                except OperationalError:
-                    print(
-                        'Unable to save client data, probably not in correct format', clientParentRow)
-                    pass
+                saveData(clientParentRow)
 
     except OSError:
         print('No client data found')
@@ -157,12 +148,7 @@ def handleServer(request):
                     i for i in words]
                 serverRow = ServerRow(parentName=iteratedParentName, name=NAME, address=ADDRESS, active=ACTIVE, maxActive=MAX_ACTIVE,
                                       count=COUNT, errors=ERRORS, latency=LATENCY, peakLatency=PEAK_LATENCY, throughPut=THROUGHPUT)
-                try:
-                    serverRow.save()
-                except OperationalError:
-                    print(
-                        'Unable to save server data, probably not in correct format', serverRow)
-                    pass
+                saveData(serverRow)
             else:
                 words = re.split(r'  +', line)
                 iteratedParentName = words[0].replace(
@@ -185,12 +171,15 @@ def handleAlarm(request):
                 i for i in words]
             alarmRow = AlarmRow(name=NAME, module=MODULE, id=ID, description=DESCRIPTION,
                                 raised=RAISED, lastRaised=LAST_RAISED, cleared=CLEARED, lastCleared=LAST_CLEARED)
-            try:
-                alarmRow.save()
-            except OperationalError:
-                print(
-                    'Unable to save alarm data, probably not in correct format', alarmRow)
-                pass
+            saveData(alarmRow)
     except OSError:
         print('No alarm data found')
+        pass
+
+
+def saveData(row):
+    try:
+        row.save()
+    except OperationalError:
+        print('Unable to save data, probably not in correct format', row)
         pass

@@ -77,23 +77,14 @@ def handlePath(request):
                     charsRow = CharsRow(parentName=iteratedParentName, name=NAME, error=ERROR,
                                         count=COUNT, lastOccurence=LAST_OCCURRENCE)
                     previousRow = charsRow
-                    try:
-                        charsRow.save()
-                    except OperationalError:
-                        print(
-                            'Unable to save char data, probably not in correct format', charsRow)
-                        pass
+                    saveData(charsRow)
                 elif(len(words) == 3):
                     ERROR, COUNT, LAST_OCCURRENCE = [
                         i for i in words]
                     charsRow = CharsRow(parentName=iteratedParentName, name=previousRow.name, error=ERROR,
                                         count=COUNT, lastOccurence=LAST_OCCURRENCE)
-                    try:
-                        charsRow.save()
-                    except OperationalError:
-                        print(
-                            'Unable to save char data, probably not in correct format', charsRow)
-                        pass
+                    saveData(charsRow)
+
             else:
                 words = re.split(r'  +', line)
                 iteratedParentName = words[0].replace(
@@ -101,4 +92,12 @@ def handlePath(request):
 
     except OSError:
         print('No char data found')
+        pass
+
+
+def saveData(row):
+    try:
+        row.save()
+    except OperationalError:
+        print('Unable to save data, probably not in correct format', row)
         pass
