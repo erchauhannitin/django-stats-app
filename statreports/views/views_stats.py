@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from statreports.models import ClientRow, ServerRow, AlarmRow
+from statreports.models import ClientRow, ServerRow, AlarmRow, ClientParentRow
 from django.shortcuts import render, redirect
 import re
 from django.db.utils import OperationalError
@@ -12,6 +12,8 @@ from django.contrib import messages
 def stats(request):
 
     clientRows = ClientRow.objects.order_by('-count')
+    clientParentRows = ClientParentRow.objects.order_by(
+        '-count')
     serverRows = ServerRow.objects.order_by('-count')
     alarmRows = AlarmRow.objects.order_by('-module')
 
@@ -26,6 +28,7 @@ def stats(request):
                'maxErrorRow': maxErrorRow,
                'maxErrorRows': maxErrorRows,
                'maxCountRows': maxCountRows,
+               'clientParentRows': clientParentRows
                }
     return render(request, 'statreports/stats.html', context)
 
@@ -124,6 +127,16 @@ def handleClient(request):
                 words = re.split(r'  +', line)
                 iteratedParentName = words[0].replace(
                     'com.ericsson.em.am', 'c.e.e.a')
+                NAME, ADDRESS, ACTIVE, INACTIVE, MAX_ACTIVE, COUNT, ERRORS, TIMEOUTS, LATENCY, PEAK_LATENCY, THROUGHPUT = [
+                    i for i in words]
+                clientParentRow = ClientParentRow(name=NAME, address=ADDRESS, active=ACTIVE, inActive=INACTIVE, maxActive=MAX_ACTIVE,
+                                                  count=COUNT, errors=ERRORS, timeOuts=TIMEOUTS, latency=LATENCY, peakLatency=PEAK_LATENCY, throughPut=THROUGHPUT)
+                try:
+                    clientParentRow.save()
+                except OperationalError:
+                    print(
+                        'Unable to save client data, probably not in correct format', clientParentRow)
+                    pass
 
     except OSError:
         print('No client data found')

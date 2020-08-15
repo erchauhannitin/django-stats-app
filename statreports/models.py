@@ -19,6 +19,23 @@ class ClientRow(models.Model):
         return '<Client: {}>'.format(self.name)
 
 
+class ClientParentRow(models.Model):
+    name = models.CharField(max_length=20, primary_key=True)
+    address = models.CharField(max_length=50)
+    active = models.IntegerField()
+    inActive = models.TextField()
+    maxActive = models.TextField()
+    count = models.IntegerField()
+    errors = models.IntegerField()
+    timeOuts = models.TextField()
+    latency = models.CharField(max_length=20)
+    peakLatency = models.CharField(max_length=20)
+    throughPut = models.TextField()
+
+    def __str__(self):
+        return '<ClientParent: {}>'.format(self.name)
+
+
 class ServerRow(models.Model):
     parentName = models.CharField(max_length=50)
     name = models.CharField(max_length=20, primary_key=True)
@@ -57,4 +74,4 @@ class CharsRow(models.Model):
     lastOccurence = models.TextField()
 
     def __str__(self):
-        return '<Path: {}>'.format(self.name)
+        return '<Char: {}>'.format(self.name)

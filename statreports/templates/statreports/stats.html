@@ -60,12 +60,19 @@
       $(document).ready(function () {
         $("#alarmTable").DataTable();
       });
+      $(document).ready(function () {
+        $("#clientParentTable").DataTable();
+      });
     </script>
 
   </head>
   <body>
     <br />
     <div>{{ timeStamp }}</div>
+    <div>
+      <a href="{% url 'home_stat' %}"
+        target="_blank">Home</a>
+    </div>
     <br />
     <div>
     <div class="container theme-showcase" role="main">
@@ -75,6 +82,7 @@
         <li><a data-toggle="tab" href="#server">Server</a></li>
         <li><a data-toggle="tab" href="#alarm">Alarm</a></li>
         <li><a data-toggle="tab" href="#summary">Summary</a></li>
+        <li><a data-toggle="tab" href="#clientParent">Client Parent</a></li>
       </ul>
       <div class="tab-content">
         <div id="client" class="tab-pane fade in active">
@@ -265,7 +273,47 @@
             </tbody>
           </table>
           </div>
-        </div>          
+          
+  
+        </div>  
+        
+        <div id="clientParent" class="tab-pane fade">
+          <table
+            class="sortable rows-list ui-responsive"
+            border="1"
+            data-mode="columntoggle"
+            data-role="table"
+            id="clientParentTable"
+          >
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th data-priority="1">Address</th>
+                <th data-priority="2">Count</th>
+                <th data-priority="3">Errors</th>
+                <th data-priority="4">Time Outs</th>
+                <th data-priority="5">Latency</th>
+                <th data-priority="6">Peak Latency</th>
+                <th data-priority="7">Through Put</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in clientParentRows %}
+              <tr>
+                <td>{{ row.name }}</td>
+                <td>{{ row.address }}</td>
+                <td>{{ row.count }}</td>
+                <td>{{ row.errors }}</td>
+                <td>{{ row.timeOuts }}</td>
+                <td>{{ row.latency }}</td>
+                <td>{{ row.peakLatency }}</td>
+                <td>{{ row.throughPut }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        
       </div>
     </div>
   </body>
