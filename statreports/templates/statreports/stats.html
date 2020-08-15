@@ -32,12 +32,12 @@
     <script>
       var includeLocalHost = true;  
       $.fn.dataTable.ext.search.push(
-          function( settings, data, dataIndex ) {  
-            return includeLocalHost || !data[2].includes('localhost');              
+          function( settings, data, dataIndex ) {
+            return includeLocalHost || !data[1].includes('localhost'); 
           }
       );
       $(document).ready(function() {
-          var table = $('#clientTable').DataTable();             
+           var table = $('#clientParentTable').DataTable();             
           $('#localhost').change( function() {
               if(this.checked){
                 includeLocalHost = true;
@@ -86,9 +86,9 @@
       </ul>
       <div class="tab-content">
         <div id="client" class="tab-pane fade in active">
-          <div>
+          <!-- <div>
             <input type="checkbox" name="localhost" id="localhost"/>
-          </div>
+          </div> -->
           <table
             class="sortable rows-list ui-responsive"
             border="1"
@@ -278,6 +278,9 @@
         </div>  
         
         <div id="clientParent" class="tab-pane fade">
+          <div>
+            <input type="checkbox" name="localhost" id="localhost"/>
+          </div>
           <table
             class="sortable rows-list ui-responsive"
             border="1"
