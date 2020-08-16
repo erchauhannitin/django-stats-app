@@ -32,6 +32,10 @@
             $(this).val("");
             alert("Please select correct file format, only txt format allowed");
           }
+          if (this.files[0].size > 1048576) {
+            alert("File is too big, max size is 1 MB");
+            this.value = "";
+          }
         });
       });
     </script>
