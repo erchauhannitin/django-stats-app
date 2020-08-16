@@ -17,7 +17,11 @@
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-    <link
+    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.5/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.5/js/responsive.bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <link
       rel="stylesheet"
       src="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css"
     />
@@ -25,7 +29,6 @@
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
     />
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
     <!-- Custom styles for this template -->
     <link href="{% static 'statreports/theme.css' %}" rel="stylesheet" />
@@ -46,6 +49,21 @@
                 includeLocalHost = false;
               }
               table.draw();
+          } );
+          $('#clientTable').DataTable( {
+              responsive: {
+                  details: {
+                      display: $.fn.dataTable.Responsive.display.modal( {
+                          header: function ( row ) {
+                              var data = row.data();
+                              return 'Details for '+data[0]+' '+data[1];
+                          }
+                      } ),
+                      renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
+                          tableClass: 'table'
+                      } )
+                  }
+              }
           } );
       } );
     </script>
@@ -89,6 +107,7 @@
           <table
             class="sortable rows-list ui-responsive"
             border="1"
+            
             data-mode="columntoggle"
             data-role="table"
             id="clientTable"
