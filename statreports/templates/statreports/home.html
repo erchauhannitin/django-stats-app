@@ -23,6 +23,18 @@
         });
       });
     </script>
+    <script>
+      $(function () {
+        $("input[type=file]").change(function () {
+          var val = $(this).val().toLowerCase(),
+            regex = new RegExp("(.*?)\.(txt)$");
+          if (!regex.test(val)) {
+            $(this).val("");
+            alert("Please select correct file format, only txt format allowed");
+          }
+        });
+      });
+    </script>
   </head>
   <body>
     <div class="container theme-showcase" role="main">
