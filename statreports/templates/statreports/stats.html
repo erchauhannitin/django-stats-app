@@ -115,9 +115,9 @@
                 <td>{{ row.count }}</td>
                 <td>{{ row.errors }}</td>
                 <td>{{ row.timeOuts }}</td>
-                <td>{{ row.latency }}</td>
-                <td>{{ row.peakLatency }}</td>
-                <td>{{ row.throughPut }}</td>
+                <td>{{ row.latency }} ms</td>
+                <td>{{ row.peakLatency }} ms</td>
+                <td>{{ row.throughPut }}/s</td>
               </tr>
               {% endfor %}
             </tbody>
@@ -152,9 +152,9 @@
                 <td>{{ row.address }}</td>
                 <td>{{ row.count }}</td>
                 <td>{{ row.errors }}</td>
-                <td>{{ row.latency }}</td>
-                <td>{{ row.peakLatency }}</td>
-                <td>{{ row.throughPut }}</td>
+                <td>{{ row.latency }} ms</td>
+                <td>{{ row.peakLatency }} ms</td>
+                <td>{{ row.throughPut }}/s</td>
               </tr>
               {% endfor %}
             </tbody>
@@ -224,9 +224,9 @@
                 <td>{{ row.count }}</td>
                 <td>{{ row.errors }}</td>
                 <td>{{ row.timeOuts }}</td>
-                <td>{{ row.latency }}</td>
-                <td>{{ row.peakLatency }}</td>
-                <td>{{ row.throughPut }}</td>
+                <td>{{ row.latency }} ms</td>
+                <td>{{ row.peakLatency }} ms</td>
+                <td>{{ row.throughPut }}/s</td>
               </tr>
               {% endfor %}
             </tbody>
@@ -262,16 +262,14 @@
                 <td>{{ row.count }}</td>
                 <td>{{ row.errors }}</td>
                 <td>{{ row.timeOuts }}</td>
-                <td>{{ row.latency }}</td>
-                <td>{{ row.peakLatency }}</td>
-                <td>{{ row.throughPut }}</td>
+                <td>{{ row.latency }} ms</td>
+                <td>{{ row.peakLatency }} ms</td>
+                <td>{{ row.throughPut }}/s</td>
               </tr>
               {% endfor %}
             </tbody>
           </table>
-          </div>
-          
-  
+          </div>  
         </div>  
         
         <div id="clientParent" class="tab-pane fade">
@@ -305,9 +303,9 @@
                 <td>{{ row.count }}</td>
                 <td>{{ row.errors }}</td>
                 <td>{{ row.timeOuts }}</td>
-                <td>{{ row.latency }}</td>
-                <td>{{ row.peakLatency }}</td>
-                <td>{{ row.throughPut }}</td>
+                <td>{{ row.latency }} ms</td>
+                <td>{{ row.peakLatency }} ms</td>
+                <td>{{ row.throughPut }}/s</td>
               </tr>
               {% endfor %}
             </tbody>
