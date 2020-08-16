@@ -54,6 +54,13 @@ tr:nth-child(even) {
 
 table {
   counter-reset: rowNumber;
+  table-layout: unset;
+}
+
+td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: normal;
 }
 
 table tr::before {
@@ -85,5 +92,14 @@ table tr::before {
 
 tr:hover {
   cursor: pointer;
-  font-size: 1.1em;
+  /* font-size: 1.1em; */
+}
+
+#container {
+  white-space: nowrap;
+}
+
+.dataTables_scrollBody {
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
 }

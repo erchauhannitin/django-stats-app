@@ -11,9 +11,9 @@ class ClientRow(models.Model):
     count = models.IntegerField()
     errors = models.IntegerField()
     timeOuts = models.TextField()
-    latency = models.CharField(max_length=20)
-    peakLatency = models.CharField(max_length=20)
-    throughPut = models.TextField()
+    latency = models.IntegerField()
+    peakLatency = models.IntegerField()
+    throughPut = models.IntegerField()
 
     def __str__(self):
         return '<Client: {}>'.format(self.name)
@@ -28,9 +28,9 @@ class ClientParentRow(models.Model):
     count = models.IntegerField()
     errors = models.IntegerField()
     timeOuts = models.TextField()
-    latency = models.CharField(max_length=20)
-    peakLatency = models.CharField(max_length=20)
-    throughPut = models.TextField()
+    latency = models.IntegerField()
+    peakLatency = models.IntegerField()
+    throughPut = models.IntegerField()
 
     def __str__(self):
         return '<ClientParent: {}>'.format(self.name)
@@ -44,9 +44,9 @@ class ServerRow(models.Model):
     maxActive = models.TextField()
     count = models.IntegerField()
     errors = models.IntegerField()
-    latency = models.CharField(max_length=20)
-    peakLatency = models.CharField(max_length=20)
-    throughPut = models.TextField()
+    latency = models.IntegerField()
+    peakLatency = models.IntegerField()
+    throughPut = models.IntegerField()
 
     def __str__(self):
         return '<Server: {}>'.format(self.name)
@@ -70,7 +70,7 @@ class CharsRow(models.Model):
     parentName = models.CharField(max_length=120)
     name = models.CharField(max_length=120)
     error = models.CharField(max_length=40)
-    count = models.TextField()
+    count = models.IntegerField()
     lastOccurence = models.TextField()
 
     def __str__(self):
