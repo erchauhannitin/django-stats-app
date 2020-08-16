@@ -12,6 +12,17 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link href="{% static 'statreports/theme.css' %}" rel="stylesheet" />
+    <script>
+      $(document).ready(function () {
+        $("input:file").change(function () {
+          if ($(this).val()) {
+            $("input:submit").attr("disabled", false);
+          } else {
+            $("input:submit").attr("disabled", true);
+          }
+        });
+      });
+    </script>
   </head>
   <body>
     <div class="container theme-showcase" role="main">
@@ -24,7 +35,7 @@
         <div id="stats" class="tab-pane fade in active">
           <form method="POST" enctype="multipart/form-data" action="/home_stat">
             {% csrf_token %} {{ form.as_p }}
-            <input type="submit" value="Upload Stats" />
+            <input type="submit" value="Upload Stats" disabled />
             <br />
             <br />
             <div>
