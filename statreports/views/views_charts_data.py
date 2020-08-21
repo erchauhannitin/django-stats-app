@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from statreports.models import CharsRow, ClientParentRow
 from django.shortcuts import render
-from django.db.models import Count
+from django.db.models import Count, Sum
 
 
 def json_example(request):
@@ -12,17 +12,16 @@ def chart_data(request):
     dataset = CharsRow.objects \
         .values('error') \
         .exclude(error='') \
-        .annotate(total=Count('error')) \
+        .annotate(totalSum=Sum('count')) \
+        .annotate(totalCount=Count('count')) \
         .order_by('error')
 
-    print(dataset)
-
     chart = {
-        'chart': {'type': 'pie'},
+        'chart': {'type': 'variablepie'},
         'title': {'text': 'Exception aggregation and percentage'},
         'series': [{
             'name': 'Exception type',
-            'data': list(map(lambda row: {'name': row['error'], 'y': row['total']}, dataset))
+            'data': list(map(lambda row: {'name': row['error'], 'y': row['totalSum'], 'z': row['totalCount']}, dataset))
         }]
     }
 

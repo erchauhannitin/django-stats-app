@@ -8,6 +8,7 @@
     <div id="container" data-url="{% url 'chart_data' %}"></div>
     <script src="https://code.highcharts.com/highcharts.src.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://code.highcharts.com/modules/variable-pie.js"></script>
     <script>
       $.ajax({
         url: $("#container").attr("data-url"),
