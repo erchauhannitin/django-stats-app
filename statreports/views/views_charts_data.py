@@ -14,6 +14,7 @@ def chart_data(request):
         .exclude(error='') \
         .annotate(totalSum=Sum('count')) \
         .annotate(totalCount=Count('count')) \
+        .filter(totalSum__gte=100000) \
         .order_by('error')
 
     chart = {
