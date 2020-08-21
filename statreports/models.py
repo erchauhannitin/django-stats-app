@@ -74,4 +74,4 @@ class CharsRow(models.Model):
     lastOccurence = models.TextField()
 
     def __str__(self):
-        return '<Char: {}>'.format(self.name)
+        return '<Char: {}-{}>'.format(self.error, self.count)
