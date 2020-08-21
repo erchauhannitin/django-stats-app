@@ -15,11 +15,13 @@ def chart_data(request):
         .annotate(total=Count('error')) \
         .order_by('error')
 
+    print(dataset)
+
     chart = {
         'chart': {'type': 'pie'},
-        'title': {'text': 'Ticket Class'},
+        'title': {'text': 'Exception aggregation and percentage'},
         'series': [{
-            'name': 'Embarkation Port',
+            'name': 'Exception type',
             'data': list(map(lambda row: {'name': row['error'], 'y': row['total']}, dataset))
         }]
     }
