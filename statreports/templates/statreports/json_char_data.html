@@ -5,9 +5,9 @@
     <title>Django Highcharts Example</title>
   </head>
   <body>
-    <form method="POST" >
+    <form method="POST">
       {% csrf_token %} {{ form.as_p }}
-      <input type="submit">Submit</input>
+      <input id="submit" type="submit" hidden></input>
     </form>
 
     <div id="container" data-url="{% url 'chart_data' %}"></div>
@@ -26,6 +26,12 @@
     <script src="https://code.highcharts.com/modules/pyramid3d.js"></script> 
 
     <script>
+      $(document).ready(function() {
+        $('#id_filter_by').on('change', function() {
+          $('#submit').click();
+        });
+      });
+
       $.ajax({
         url: $("#container").attr("data-url"),
         dataType: "json",
