@@ -13,4 +13,5 @@ urlpatterns = [
     path('home_stat', home_stat, name='home_stat'),
     path('json-example/', json_example, name='json_example'),
     path('json-example/data/', chart_data, name='chart_data'),
+
 ]
