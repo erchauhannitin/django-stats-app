@@ -42,6 +42,7 @@ def chart_data(request):
         'title': {'text': 'Exception aggregation and percentage'},
         'series': [{
             'name': 'Exception type',
+            'colorByPoint': 'true',
             'data': list(map(lambda row: {'name': row['error'], 'y': row['totalSum'], 'z': row['totalCount']}, dataset))
         }]
     }
