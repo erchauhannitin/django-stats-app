@@ -26,3 +26,5 @@ yarn-error.log*
 **/output
 
 db.sqlite3
+
+__pycache__/

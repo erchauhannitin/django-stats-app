@@ -1,7 +1,6 @@
 from django.http import JsonResponse
 from statreports.models import ClientParentRow
 from django.shortcuts import render
-from django.db.models import Count, Sum
 from statreports.forms import ChartTypeForm
 
 
@@ -17,31 +16,15 @@ def clientparent_chart(request):
 def clientparent_json(request):
 
     chart_type = request.session.get('chart_type')
-    dataset = ClientParentRow.objects \
-        .values('latency') \
-        .exclude(errors=0) \
-        .filter(errors__gte=100000) \
-        .order_by('latency')
+    dataset = ClientParentRow.objects.order_by('-count')[0:5]
 
     chart = {
-        'chart': {'type': chart_type, 'options3d': {
-            'enabled': 'true',
-            'alpha': '45',
-            'beta': '0',
-            'depth': '50',
-            'viewDistance': '25'
-        }},
-        'plotOptions': {
-            'pie': {
-                'innerSize': '100',
-                'depth': '45',
-            }
-        },
-        'title': {'text': 'Exception aggregation and percentage'},
+        'chart': {'type': chart_type},
+        'title': {'text': 'Problematic clients'},
         'series': [{
-            'name': 'Exception type',
+            'name': 'Client Name',
             'colorByPoint': 'true',
-            'data': list(map(lambda row: {'name': row['latency'], 'y': row['errors'], 'z': row['latency']}, dataset))
+            'data': list(map(lambda row: {'name': row.name, 'y': row.count}, dataset))
         }]
     }
 
