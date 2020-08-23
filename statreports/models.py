@@ -75,3 +75,13 @@ class CharsRow(models.Model):
 
     def __str__(self):
         return '<Char: {}-{}>'.format(self.error, self.count)
+
+
+class MenuCharsRow(models.Model):
+    name = models.CharField(max_length=120)
+    error = models.CharField(max_length=40)
+    count = models.IntegerField()
+    lastOccurence = models.TextField()
+
+    def __str__(self):
+        return '<MenuChars: {}-{}>'.format(self.error, self.count)

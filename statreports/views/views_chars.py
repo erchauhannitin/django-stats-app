@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from statreports.models import CharsRow
+from statreports.models import CharsRow, MenuCharsRow
 from django.shortcuts import render, redirect
 import re
 from django.db.utils import OperationalError
@@ -12,8 +12,10 @@ from django.contrib import messages
 def chars(request):
 
     charsRows = CharsRow.objects.order_by('-count')
+    menuCharsRows = MenuCharsRow.objects.order_by('-count')
 
-    context = {'charsRows': charsRows}
+    context = {'charsRows': charsRows,
+               'menuCharsRows': menuCharsRows}
     return render(request, 'statreports/chars.html', context)
 
 
@@ -53,6 +55,7 @@ def clearsPreviousOutput(request):
 
     try:
         CharsRow.objects.all().delete()
+        MenuCharsRow.objects.all().delete()
     except OperationalError:
         pass
 
@@ -77,13 +80,23 @@ def handlePath(request):
                     charsRow = CharsRow(parentName=iteratedParentName, name=NAME, error=ERROR,
                                         count=COUNT, lastOccurence=LAST_OCCURRENCE)
                     previousRow = charsRow
-                    saveData(charsRow)
+                    if(iteratedParentName == 'c.e.e.a.menu'):
+                        menuCharsRow = MenuCharsRow(name=NAME, error=ERROR,
+                                                    count=COUNT, lastOccurence=LAST_OCCURRENCE)
+                        saveData(menuCharsRow)
+                    else:
+                        saveData(charsRow)
                 elif(len(words) == 3):
                     ERROR, COUNT, LAST_OCCURRENCE = [
                         i for i in words]
                     charsRow = CharsRow(parentName=iteratedParentName, name=previousRow.name, error=ERROR,
                                         count=COUNT, lastOccurence=LAST_OCCURRENCE)
-                    saveData(charsRow)
+                    if(iteratedParentName == 'c.e.e.a.menu'):
+                        menuCharsRow = MenuCharsRow(name=previousRow.name, error=ERROR,
+                                                    count=COUNT, lastOccurence=LAST_OCCURRENCE)
+                        saveData(menuCharsRow)
+                    else:
+                        saveData(charsRow)
 
             else:
                 words = re.split(r'  +', line)

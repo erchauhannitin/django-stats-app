@@ -35,6 +35,9 @@
       $(document).ready(function () {
         $("#charsTable").DataTable();
       });
+      $(document).ready(function () {
+        $("#menuCharsTable").DataTable();
+      });
     </script>
   </head>
 
@@ -47,6 +50,7 @@
       <br />
       <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#chars">Chars</a></li>
+        <li><a data-toggle="tab" href="#menu">Menu</a></li>
       </ul>
       <div class="tab-content">
         <div id="chars" class="tab-pane fade in active">
@@ -70,6 +74,35 @@
               {% for row in charsRows %}
               <tr>
                 <td>{{ row.parentName }}</td>
+                <td>{{ row.name }}</td>
+                <td>{{ row.error }}</td>
+                <td>{{ row.count }}</td>
+                <td>{{ row.lastOccurence }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <div id="menu" class="tab-pane fade">
+          <table
+            class="sortable rows-list ui-responsive"
+            border="1"
+            data-mode="columntoggle"
+            data-role="table"
+            id="menuCharsTable"
+          >
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th data-priority="1">Error</th>
+                <th>Count</th>
+                <th data-priority="2">LastOccurence</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in menuCharsRows %}
+              <tr>
                 <td>{{ row.name }}</td>
                 <td>{{ row.error }}</td>
                 <td>{{ row.count }}</td>
