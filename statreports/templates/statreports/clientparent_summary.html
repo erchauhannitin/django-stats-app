@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Django Highcharts</title>
+    <title>ClientParent Charts</title>
   </head>
   <body>
     <form method="POST">
@@ -36,7 +36,6 @@
         url: $("#container").attr("data-url"),
         dataType: "json",
         success: function (data) {
-          console.log(data);
           Highcharts.setOptions({
             colors: ['#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']
           });            
