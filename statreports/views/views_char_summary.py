@@ -40,6 +40,12 @@ def char_json(request):
             }
         },
         'title': {'text': 'Exception aggregation and percentage'},
+        'tooltip': {
+            'headerFormat': '',
+            'pointFormat': '<span style="color:{point.color}">\u25CF</span> <b> {point.name}</b><br/>' +
+            'Sum : <b>{point.y}</b><br/>' +
+            'Count: <b>{point.z}</b><br/>'
+        },
         'series': [{
             'name': 'Exception type',
             'colorByPoint': 'true',

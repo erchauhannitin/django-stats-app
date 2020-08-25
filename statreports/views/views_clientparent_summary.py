@@ -35,21 +35,39 @@ def clientparent_json(request):
             }
         },
         'title': {'text': 'Problematic clients'},
+        'legend': {
+            'enabled': 'true'
+        },
+        'xAxis': {
+            'type': 'category',
+            'labels': {
+                    'rotation': '-90',
+                    'style': {
+                        'fontSize': '13px',
+                        'fontFamily': 'Verdana, sans-serif',
+                    }
+            }
+        },
+        'tooltip': {
+            'headerFormat': '',
+            'pointFormat': '<span style="color:{point.color}">\u25CF</span> <b> {point.name} </b><br/>' +
+            'Count : <b>{point.y}</b><br/>'
+        },
         'series': [{
             'name': 'Client count',
             'colorByPoint': 'true',
-            'data': list(map(lambda row: {'name': row.name, 'y': row.count}, dataset))
+            'data': list(map(lambda row: {'name': row.name, 'y': row.count, 'z': row.errors}, dataset))
         },
             {
             'name': 'Client errors',
             'colorByPoint': 'true',
             'data': list(map(lambda row: {'name': row.name, 'y': row.errors}, dataset2))
         },
-            #     {
-            #     'name': 'Client latency',
-            #     'colorByPoint': 'true',
-            #     'data': list(map(lambda row: {'name': row.name, 'y': int(row.latency)}, dataset3))
-            # }
+            {
+                'name': 'Client latency',
+                'colorByPoint': 'true',
+                'data': list(map(lambda row: {'name': row.name, 'y': int(row.latency)}, dataset3))
+        }
         ]
     }
 
