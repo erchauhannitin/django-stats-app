@@ -3,11 +3,9 @@ from django.db import models
 
 class ClientRow(models.Model):
     parentName = models.CharField(max_length=50)
-    name = models.CharField(max_length=20, primary_key=True)
+    name = models.CharField(max_length=20)
     address = models.CharField(max_length=50)
     active = models.IntegerField()
-    inActive = models.TextField()
-    maxActive = models.TextField()
     count = models.IntegerField()
     errors = models.IntegerField()
     timeOuts = models.TextField()

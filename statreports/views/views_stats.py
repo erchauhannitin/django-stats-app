@@ -113,8 +113,8 @@ def handleClient(request):
                 words = re.split(r'  +', line.lstrip())
                 NAME, ADDRESS, ACTIVE, INACTIVE, MAX_ACTIVE, COUNT, ERRORS, TIMEOUTS, LATENCY, PEAK_LATENCY, THROUGHPUT = [
                     i for i in words]
-                clientRow = ClientRow(parentName=iteratedParentName, name=NAME, address=ADDRESS, active=ACTIVE, inActive=INACTIVE,
-                                      maxActive=MAX_ACTIVE, count=COUNT, errors=ERRORS, timeOuts=TIMEOUTS,
+                clientRow = ClientRow(parentName=iteratedParentName, name=NAME, address=ADDRESS, active=ACTIVE,
+                                      count=COUNT, errors=ERRORS, timeOuts=TIMEOUTS,
                                       latency=LATENCY.replace(' ms', ''), peakLatency=PEAK_LATENCY.replace(' ms', ''),
                                       throughPut=THROUGHPUT.replace('/s', ''))
                 saveData(clientRow)
