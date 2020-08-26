@@ -307,6 +307,9 @@
                 <th>Name</th>
                 <th data-priority="1">Address</th>
                 <th data-priority="2">Count</th>
+                <th data-priority="3">Active</th>
+                <th data-priority="3">InActive</th>
+                <th data-priority="3">Max Active</th>
                 <th data-priority="3">Errors</th>
                 <th data-priority="4">Time Outs</th>
                 <th data-priority="5">Latency (ms)</th>
@@ -319,6 +322,9 @@
               <tr>
                 <td>{{ row.name }}</td>
                 <td>{{ row.address }}</td>
+                <td>{{ row.active }}</td>
+                <td>{{ row.inActive }}</td>
+                <td>{{ row.maxActive }}</td>
                 <td>{{ row.count }}</td>
                 <td>{{ row.errors }}</td>
                 <td>{{ row.timeOuts }}</td>
