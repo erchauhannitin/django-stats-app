@@ -33,7 +33,13 @@
     
   <script>
       $(document).ready(function () {
-        $("#clientTable").DataTable();
+        $("#criticalTable").DataTable();
+      });
+      $(document).ready(function () {
+        $("#highTable").DataTable();
+      });
+      $(document).ready(function () {
+        $("#mediumTable").DataTable();
       });
   </script>
 
@@ -59,7 +65,7 @@
             border="1"
             data-mode="columntoggle"
             data-role="table"
-            id="clientTable"
+            id="criticalTable"
           >
             <thead>
               <tr>               
@@ -102,7 +108,7 @@
             border="1"
             data-mode="columntoggle"
             data-role="table"
-            id="clientTable"
+            id="highTable"
           >
             <thead>
               <tr>               
@@ -145,7 +151,7 @@
             border="1"
             data-mode="columntoggle"
             data-role="table"
-            id="clientTable"
+            id="mediumTable"
           >
             <thead>
               <tr>               

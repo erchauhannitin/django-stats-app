@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from statreports.models import ClientParentRow
 from django.shortcuts import render
-from django.db.models import Count, Sum
+from django.db.models import Count, Sum, Q
 from statreports.forms import ChartTypeForm
 
 
@@ -10,16 +10,16 @@ def summary(request):
     context = {}
 
     criticalRows = ClientParentRow.objects \
-        .filter(timeOuts__gte=100, errors__gte=100) \
+        .filter(Q(timeOuts__gte=100) | Q(errors__gte=100)) \
         .order_by('errors')
 
     highRows = ClientParentRow.objects \
-        .filter(errors__range=(10, 100)) \
+        .filter(Q(errors__range=(10, 100)) | Q(timeOuts__range=(10, 100))) \
         .order_by('errors')
 
     mediumRows = ClientParentRow.objects \
         .exclude(errors=0) \
-        .filter(errors__lte=10) \
+        .filter(Q(timeOuts__lte=10) | Q(errors__lte=10)) \
         .order_by('errors')
 
     context['criticalRows'] = criticalRows
