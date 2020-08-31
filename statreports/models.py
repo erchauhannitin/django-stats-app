@@ -8,7 +8,7 @@ class ClientRow(models.Model):
     active = models.IntegerField()
     count = models.IntegerField()
     errors = models.IntegerField()
-    timeOuts = models.TextField()
+    timeOuts = models.IntegerField()
     latency = models.IntegerField()
     peakLatency = models.IntegerField()
     throughPut = models.IntegerField()
@@ -25,13 +25,13 @@ class ClientParentRow(models.Model):
     maxActive = models.TextField()
     count = models.IntegerField()
     errors = models.IntegerField()
-    timeOuts = models.TextField()
+    timeOuts = models.IntegerField(default=0)
     latency = models.IntegerField()
     peakLatency = models.IntegerField()
     throughPut = models.IntegerField()
 
     def __str__(self):
-        return '<ClientParent: {}>'.format(self.name)
+        return '<ClientParent: {} - {}>'.format(self.name, self.timeOuts)
 
 
 class ServerRow(models.Model):

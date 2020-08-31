@@ -1,0 +1,188 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Summary Reports</title>
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css"
+    />
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.5/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.5/js/responsive.bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link
+      rel="stylesheet"
+      src="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <!-- Custom styles for this template -->
+    <link href="{% static 'statreports/theme.css' %}" rel="stylesheet" />
+    
+  <script>
+      $(document).ready(function () {
+        $("#clientTable").DataTable();
+      });
+  </script>
+
+  </head>
+  <body>    
+    <div>
+      <a href="{% url 'home_stat' %}"
+        target="_blank">Home</a>
+    </div>
+    <br />
+    <div>
+    <div class="container theme-showcase" role="main">
+      <br />
+      <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#critical">Critical</a></li>
+        <li><a data-toggle="tab" href="#high">High</a></li>
+        <li><a data-toggle="tab" href="#medium">Medium</a></li>
+      </ul>
+      <div class="tab-content">
+        <div id="critical" class="tab-pane fade in active">
+          <table
+            class="sortable rows-list ui-responsive"
+            border="1"
+            data-mode="columntoggle"
+            data-role="table"
+            id="clientTable"
+          >
+            <thead>
+              <tr>               
+                <th>Name</th>
+                <th data-priority="1">Address</th>
+                <th data-priority="2">Count</th>
+                <th data-priority="3">Active</th>
+                <th data-priority="3">InActive</th>
+                <th data-priority="3">Max Active</th>
+                <th data-priority="3">Errors</th>
+                <th data-priority="4">Time Outs</th>
+                <th data-priority="5">Latency (ms)</th>
+                <th data-priority="6">Peak Latency (ms)</th>
+                <th data-priority="7">Through Put</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in criticalRows %}
+              <tr>
+                <td>{{ row.name }}</td>
+                <td>{{ row.address }}</td>
+                <td>{{ row.active }}</td>
+                <td>{{ row.inActive }}</td>
+                <td>{{ row.maxActive }}</td>
+                <td>{{ row.count }}</td>
+                <td>{{ row.errors }}</td>
+                <td>{{ row.timeOuts }}</td>
+                <td>{{ row.latency }}</td>
+                <td>{{ row.peakLatency }}</td>
+                <td>{{ row.throughPut }}/s</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+     
+        <div id="high" class="tab-pane fade">
+          <table
+            class="sortable rows-list ui-responsive"
+            border="1"
+            data-mode="columntoggle"
+            data-role="table"
+            id="clientTable"
+          >
+            <thead>
+              <tr>               
+                <th>Name</th>
+                <th data-priority="1">Address</th>
+                <th data-priority="2">Count</th>
+                <th data-priority="3">Active</th>
+                <th data-priority="3">InActive</th>
+                <th data-priority="3">Max Active</th>
+                <th data-priority="3">Errors</th>
+                <th data-priority="4">Time Outs</th>
+                <th data-priority="5">Latency (ms)</th>
+                <th data-priority="6">Peak Latency (ms)</th>
+                <th data-priority="7">Through Put</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in highRows %}
+              <tr>
+                <td>{{ row.name }}</td>
+                <td>{{ row.address }}</td>
+                <td>{{ row.active }}</td>
+                <td>{{ row.inActive }}</td>
+                <td>{{ row.maxActive }}</td>
+                <td>{{ row.count }}</td>
+                <td>{{ row.errors }}</td>
+                <td>{{ row.timeOuts }}</td>
+                <td>{{ row.latency }}</td>
+                <td>{{ row.peakLatency }}</td>
+                <td>{{ row.throughPut }}/s</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+     
+        <div id="medium" class="tab-pane fade">
+          <table
+            class="sortable rows-list ui-responsive"
+            border="1"
+            data-mode="columntoggle"
+            data-role="table"
+            id="clientTable"
+          >
+            <thead>
+              <tr>               
+                <th>Name</th>
+                <th data-priority="1">Address</th>
+                <th data-priority="2">Count</th>
+                <th data-priority="3">Active</th>
+                <th data-priority="3">InActive</th>
+                <th data-priority="3">Max Active</th>
+                <th data-priority="3">Errors</th>
+                <th data-priority="4">Time Outs</th>
+                <th data-priority="5">Latency (ms)</th>
+                <th data-priority="6">Peak Latency (ms)</th>
+                <th data-priority="7">Through Put</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in mediumRows %}
+              <tr>
+                <td>{{ row.name }}</td>
+                <td>{{ row.address }}</td>
+                <td>{{ row.active }}</td>
+                <td>{{ row.inActive }}</td>
+                <td>{{ row.maxActive }}</td>
+                <td>{{ row.count }}</td>
+                <td>{{ row.errors }}</td>
+                <td>{{ row.timeOuts }}</td>
+                <td>{{ row.latency }}</td>
+                <td>{{ row.peakLatency }}</td>
+                <td>{{ row.throughPut }}/s</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+     
+      </div>
+    </div>
+  </body>
+</html>

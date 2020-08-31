@@ -99,7 +99,6 @@
         <li class="active"><a data-toggle="tab" href="#client">Client</a></li>
         <li><a data-toggle="tab" href="#server">Server</a></li>
         <li><a data-toggle="tab" href="#alarm">Alarm</a></li>
-        <li><a data-toggle="tab" href="#summary">Summary</a></li>
         <li><a data-toggle="tab" href="#clientParent">Client Parent</a></li>
       </ul>
       <div class="tab-content">
@@ -114,29 +113,29 @@
           >
             <thead>
               <tr>               
-                <th>Parent Name</th>
-                <th>Name</th>
-                <th data-priority="1">Address</th>
-                <th data-priority="2">Count</th>
-                <th data-priority="3">Errors</th>
-                <th data-priority="4">Time Outs</th>
-                <th data-priority="5">Latency (ms)</th>
-                <th data-priority="6">Peak Latency (ms)</th>
-                <th data-priority="7">Through Put</th>
+                <th width="10%">Parent Name</th>
+                <th width="10%">Name</th>
+                <th data-priority="1" width="20%">Address</th>
+                <th data-priority="2" width="10%">Count</th>
+                <th data-priority="3" width="10%">Errors</th>
+                <th data-priority="4" width="10%">Time Outs</th>
+                <th data-priority="5" width="10%">Latency (ms)</th>
+                <th data-priority="6" width="10%">Peak Latency (ms)</th>
+                <th data-priority="7" width="10%">Through Put</th>
               </tr>
             </thead>
             <tbody>
               {% for row in clientRows %}
               <tr>
-                <td>{{ row.parentName }}</td>
-                <td>{{ row.name }}</td>
-                <td>{{ row.address }}</td>
-                <td>{{ row.count }}</td>
-                <td>{{ row.errors }}</td>
-                <td>{{ row.timeOuts }}</td>
-                <td>{{ row.latency }}</td>
-                <td>{{ row.peakLatency }}</td>
-                <td>{{ row.throughPut }}/s</td>
+                <td width="10%">{{ row.parentName }}</td>
+                <td width="10%">{{ row.name }}</td>
+                <td width="20%">{{ row.address }}</td>
+                <td width="10%">{{ row.count }}</td>
+                <td width="10%">{{ row.errors }}</td>
+                <td width="10%">{{ row.timeOuts }}</td>
+                <td width="10%">{{ row.latency }}</td>
+                <td width="10%">{{ row.peakLatency }}</td>
+                <td width="10%">{{ row.throughPut }}/s</td>
               </tr>
               {% endfor %}
             </tbody>
@@ -212,84 +211,6 @@
             </tbody>
           </table>
         </div>
-
-        <div id="summary" class="tab-pane fade">
-          <div>
-            <b><h3>Max Error Entries : </h3></b>
-            <table
-            class="sortable rows-list ui-responsive"
-            border="1"
-            data-mode="columntoggle"
-            data-role="table"
-            id="clientTable"
-          >
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th data-priority="1">Address</th>
-                <th data-priority="2">Count</th>
-                <th data-priority="3">Errors</th>
-                <th data-priority="4">Time Outs</th>
-                <th data-priority="5">Latency (ms)</th>
-                <th data-priority="6">Peak Latency (ms)</th>
-                <th data-priority="7">Through Put</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for row in maxErrorRows %}
-              <tr>
-                <td>{{ row.name }}</td>
-                <td>{{ row.address }}</td>
-                <td>{{ row.count }}</td>
-                <td>{{ row.errors }}</td>
-                <td>{{ row.timeOuts }}</td>
-                <td>{{ row.latency }}</td>
-                <td>{{ row.peakLatency }}</td>
-                <td>{{ row.throughPut }}/s</td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-          </div>
-          <br/>
-          <br/>
-          <div>
-            <b><h3>Max Count Entries : </h3></b>
-            <table
-            class="sortable rows-list ui-responsive"
-            data-mode="columntoggle"
-            data-role="table"
-            id="clientTable"
-          >
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th data-priority="1">Address</th>
-                <th data-priority="2">Count</th>
-                <th data-priority="3">Errors</th>
-                <th data-priority="4">Time Outs</th>
-                <th data-priority="5">Latency (ms)</th>
-                <th data-priority="6">Peak Latency (ms) (ms)</th>
-                <th data-priority="7">Through Put</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for row in maxCountRows %}
-              <tr>
-                <td>{{ row.name }}</td>
-                <td>{{ row.address }}</td>
-                <td>{{ row.count }}</td>
-                <td>{{ row.errors }}</td>
-                <td>{{ row.timeOuts }}</td>
-                <td>{{ row.latency }}</td>
-                <td>{{ row.peakLatency }}</td>
-                <td>{{ row.throughPut }}/s</td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-          </div>  
-        </div>  
         
         <div id="clientParent" class="tab-pane fade">
           <div>

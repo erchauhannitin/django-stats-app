@@ -114,7 +114,7 @@ def handleClient(request):
                 NAME, ADDRESS, ACTIVE, INACTIVE, MAX_ACTIVE, COUNT, ERRORS, TIMEOUTS, LATENCY, PEAK_LATENCY, THROUGHPUT = [
                     i for i in words]
                 clientRow = ClientRow(parentName=iteratedParentName, name=NAME, address=ADDRESS, active=ACTIVE,
-                                      count=COUNT, errors=ERRORS, timeOuts=TIMEOUTS,
+                                      count=COUNT, errors=ERRORS, timeOuts=0 if TIMEOUTS == '-' else TIMEOUTS,
                                       latency=LATENCY.replace(' ms', ''), peakLatency=PEAK_LATENCY.replace(' ms', ''),
                                       throughPut=THROUGHPUT.replace('/s', ''))
                 saveData(clientRow)
@@ -125,7 +125,7 @@ def handleClient(request):
                 NAME, ADDRESS, ACTIVE, INACTIVE, MAX_ACTIVE, COUNT, ERRORS, TIMEOUTS, LATENCY, PEAK_LATENCY, THROUGHPUT = [
                     i for i in words]
                 clientParentRow = ClientParentRow(name=iteratedParentName, address=ADDRESS, active=ACTIVE, inActive=INACTIVE,
-                                                  maxActive=MAX_ACTIVE, count=COUNT, errors=ERRORS, timeOuts=TIMEOUTS,
+                                                  maxActive=MAX_ACTIVE, count=COUNT, errors=ERRORS, timeOuts=0 if TIMEOUTS == '-' else TIMEOUTS,
                                                   latency=LATENCY.replace(' ms', ''), peakLatency=PEAK_LATENCY.replace(' ms', ''),
                                                   throughPut=THROUGHPUT.replace('/s', ''))
                 saveData(clientParentRow)

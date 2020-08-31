@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import include, path
 from .views.views_stats import stats
 from .views.views_chars import chars
 from .views.views_chars import home_char
@@ -7,6 +7,8 @@ from .views.views_char_summary import char_json
 from .views.views_char_summary import char_chart
 from .views.views_clientparent_summary import clientparent_json
 from .views.views_clientparent_summary import clientparent_chart
+from .views.views_summary import summary
+from django.conf import settings
 
 
 urlpatterns = [
@@ -21,4 +23,12 @@ urlpatterns = [
     path('clientparent_json/', clientparent_json, name='clientparent_json'),
     path('clientparent_chart/', clientparent_chart, name='clientparent_chart'),
 
+    path('summary/', summary, name='summary'),
+
 ]
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        path('__debug__/', include(debug_toolbar.urls)),
+    ] + urlpatterns
