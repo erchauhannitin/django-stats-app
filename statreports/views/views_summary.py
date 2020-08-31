@@ -14,7 +14,7 @@ def summary(request):
         .order_by('errors')
 
     highRows = ClientParentRow.objects \
-        .filter(errors__range=(1, 100)) \
+        .filter(errors__range=(10, 100)) \
         .order_by('errors')
 
     mediumRows = ClientParentRow.objects \
