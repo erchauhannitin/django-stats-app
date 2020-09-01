@@ -18,6 +18,7 @@ class ClientRow(models.Model):
 
 
 class ClientParentRow(models.Model):
+    since = models.TextField()
     name = models.CharField(max_length=20, primary_key=True)
     address = models.CharField(max_length=50)
     active = models.IntegerField()
@@ -83,3 +84,10 @@ class MenuCharsRow(models.Model):
 
     def __str__(self):
         return '<MenuChars: {}-{}>'.format(self.error, self.count)
+
+
+class ClientParentHistoryRow(ClientParentRow):
+    unique_together = (ClientParentRow.since, ClientParentRow.name)
+
+    def __str__(self):
+        return '<ClientParentHistoryRow: {} - {}>'.format(self.since, self.name)

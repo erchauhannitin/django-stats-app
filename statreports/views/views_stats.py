@@ -105,7 +105,7 @@ def handleClient(request):
     try:
         clientFile = open('./statreports/output/client.txt', 'r').readlines()
         title = clientFile.pop(0)
-        timeStamp = clientFile.pop(0)
+        timeStamp = clientFile.pop(0).replace('since ', '')
         header = clientFile.pop(0)
 
         for line in clientFile:
@@ -124,10 +124,11 @@ def handleClient(request):
                     'com.ericsson.em.am', 'c.e.e.a')
                 NAME, ADDRESS, ACTIVE, INACTIVE, MAX_ACTIVE, COUNT, ERRORS, TIMEOUTS, LATENCY, PEAK_LATENCY, THROUGHPUT = [
                     i for i in words]
-                clientParentRow = ClientParentRow(name=iteratedParentName, address=ADDRESS, active=ACTIVE, inActive=INACTIVE,
+                clientParentRow = ClientParentRow(since=timeStamp, name=iteratedParentName, address=ADDRESS, active=ACTIVE, inActive=INACTIVE,
                                                   maxActive=MAX_ACTIVE, count=COUNT, errors=ERRORS, timeOuts=0 if TIMEOUTS == '-' else TIMEOUTS,
                                                   latency=LATENCY.replace(' ms', ''), peakLatency=PEAK_LATENCY.replace(' ms', ''),
                                                   throughPut=THROUGHPUT.replace('/s', ''))
+
                 saveData(clientParentRow)
 
     except OSError:

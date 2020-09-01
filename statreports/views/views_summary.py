@@ -10,7 +10,7 @@ def summary(request):
     context = {}
 
     criticalRows = ClientParentRow.objects \
-        .filter(Q(timeOuts__gte=100) | Q(errors__gte=100)) \
+        .filter(Q(timeOuts__gte=100) | Q(errors__gte=100) | Q(latency__gte=1000)) \
         .order_by('errors')
 
     highRows = ClientParentRow.objects \
