@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from statreports.models import ClientRow, ServerRow, AlarmRow, ClientParentRow
+from statreports.models import ClientRow, ServerRow, AlarmRow, ClientParentRow, ClientParentHistoryRow
 from django.shortcuts import render, redirect
 import re
 from django.db.utils import OperationalError
@@ -7,6 +7,7 @@ from statreports.forms import InputStatsFileForm
 import shutil
 import os
 from django.contrib import messages
+from django.db import transaction
 
 
 def stats(request):
@@ -17,14 +18,9 @@ def stats(request):
     serverRows = ServerRow.objects.order_by('-count')
     alarmRows = AlarmRow.objects.order_by('-module')
 
-    maxErrorRows = clientRows.order_by('-errors')[0:3]
-    maxCountRows = clientRows.order_by('-count')[0:3]
-
     context = {'clientRows': clientRows,
                'serverRows': serverRows,
                'alarmRows': alarmRows,
-               'maxErrorRows': maxErrorRows,
-               'maxCountRows': maxCountRows,
                'clientParentRows': clientParentRows
                }
     return render(request, 'statreports/stats.html', context)
@@ -108,28 +104,36 @@ def handleClient(request):
         timeStamp = clientFile.pop(0).replace('since ', '')
         header = clientFile.pop(0)
 
-        for line in clientFile:
-            if(line.startswith(' ')):
-                words = re.split(r'  +', line.lstrip())
-                NAME, ADDRESS, ACTIVE, INACTIVE, MAX_ACTIVE, COUNT, ERRORS, TIMEOUTS, LATENCY, PEAK_LATENCY, THROUGHPUT = [
-                    i for i in words]
-                clientRow = ClientRow(parentName=iteratedParentName, name=NAME, address=ADDRESS, active=ACTIVE,
-                                      count=COUNT, errors=ERRORS, timeOuts=0 if TIMEOUTS == '-' else TIMEOUTS,
-                                      latency=LATENCY.replace(' ms', ''), peakLatency=PEAK_LATENCY.replace(' ms', ''),
-                                      throughPut=THROUGHPUT.replace('/s', ''))
-                saveData(clientRow)
-            else:
-                words = re.split(r'  +', line)
-                iteratedParentName = words[0].replace(
-                    'com.ericsson.em.am', 'c.e.e.a')
-                NAME, ADDRESS, ACTIVE, INACTIVE, MAX_ACTIVE, COUNT, ERRORS, TIMEOUTS, LATENCY, PEAK_LATENCY, THROUGHPUT = [
-                    i for i in words]
-                clientParentRow = ClientParentRow(since=timeStamp, name=iteratedParentName, address=ADDRESS, active=ACTIVE, inActive=INACTIVE,
-                                                  maxActive=MAX_ACTIVE, count=COUNT, errors=ERRORS, timeOuts=0 if TIMEOUTS == '-' else TIMEOUTS,
-                                                  latency=LATENCY.replace(' ms', ''), peakLatency=PEAK_LATENCY.replace(' ms', ''),
-                                                  throughPut=THROUGHPUT.replace('/s', ''))
+        with transaction.atomic():
+            for line in clientFile:
+                if(line.startswith(' ')):
+                    words = re.split(r'  +', line.lstrip())
+                    NAME, ADDRESS, ACTIVE, INACTIVE, MAX_ACTIVE, COUNT, ERRORS, TIMEOUTS, LATENCY, PEAK_LATENCY, THROUGHPUT = [
+                        i for i in words]
+                    clientRow = ClientRow(parentName=iteratedParentName, name=NAME, address=ADDRESS, active=ACTIVE,
+                                          count=COUNT, errors=ERRORS, timeOuts=0 if TIMEOUTS == '-' else TIMEOUTS,
+                                          latency=LATENCY.replace(' ms', ''), peakLatency=PEAK_LATENCY.replace(' ms', ''),
+                                          throughPut=THROUGHPUT.replace('/s', ''))
+                    saveData(clientRow)
+                else:
+                    words = re.split(r'  +', line)
+                    iteratedParentName = words[0].replace(
+                        'com.ericsson.em.am', 'c.e.e.a')
+                    NAME, ADDRESS, ACTIVE, INACTIVE, MAX_ACTIVE, COUNT, ERRORS, TIMEOUTS, LATENCY, PEAK_LATENCY, THROUGHPUT = [
+                        i for i in words]
+                    clientParentRow = ClientParentRow(since=timeStamp, name=iteratedParentName, address=ADDRESS, active=ACTIVE, inActive=INACTIVE,
+                                                      maxActive=MAX_ACTIVE, count=COUNT, errors=ERRORS, timeOuts=0 if TIMEOUTS == '-' else TIMEOUTS,
+                                                      latency=LATENCY.replace(' ms', ''), peakLatency=PEAK_LATENCY.replace(' ms', ''),
+                                                      throughPut=THROUGHPUT.replace('/s', ''))
 
-                saveData(clientParentRow)
+                    clientParentHistoryRow = ClientParentHistoryRow(
+                        since=timeStamp, name=iteratedParentName, address=ADDRESS, active=ACTIVE, inActive=INACTIVE,
+                        maxActive=MAX_ACTIVE, count=COUNT, errors=ERRORS, timeOuts=0 if TIMEOUTS == '-' else TIMEOUTS,
+                        latency=LATENCY.replace(' ms', ''), peakLatency=PEAK_LATENCY.replace(' ms', ''),
+                        throughPut=THROUGHPUT.replace('/s', ''))
+
+                    saveData(clientParentRow)
+                    saveData(clientParentHistoryRow)
 
     except OSError:
         print('No client data found')
