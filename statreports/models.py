@@ -32,7 +32,7 @@ class ClientParentRow(models.Model):
     throughPut = models.IntegerField()
 
     def __str__(self):
-        return '<ClientParent: {} - {}>'.format(self.name, self.timeOuts)
+        return '<ClientParent: {} - {}>'.format(self.since, self.name)
 
 
 class ServerRow(models.Model):
@@ -86,8 +86,21 @@ class MenuCharsRow(models.Model):
         return '<MenuChars: {}-{}>'.format(self.error, self.count)
 
 
-class ClientParentHistoryRow(ClientParentRow):
-    unique_together = (ClientParentRow.since, ClientParentRow.name)
+class ClientParentHistory(models.Model):
+    since = models.TextField()
+    name = models.CharField(max_length=20, primary_key=True)
+    address = models.CharField(max_length=50)
+    active = models.IntegerField()
+    inActive = models.TextField()
+    maxActive = models.TextField()
+    count = models.IntegerField()
+    errors = models.IntegerField()
+    timeOuts = models.IntegerField(default=0)
+    latency = models.IntegerField()
+    peakLatency = models.IntegerField()
+    throughPut = models.IntegerField()
+
+    unique_together = (since, name)
 
     def __str__(self):
-        return '<ClientParentHistoryRow: {} - {}>'.format(self.since, self.name)
+        return '<ClientParentHistory: {} - {}>'.format(self.since, self.name)

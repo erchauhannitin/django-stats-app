@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from statreports.models import ClientRow, ServerRow, AlarmRow, ClientParentRow, ClientParentHistoryRow
+from statreports.models import ClientRow, ServerRow, AlarmRow, ClientParentRow, ClientParentHistory
 from django.shortcuts import render, redirect
 import re
 from django.db.utils import OperationalError
@@ -13,8 +13,7 @@ from django.db import transaction
 def stats(request):
 
     clientRows = ClientRow.objects.order_by('-count')
-    clientParentRows = ClientParentRow.objects.order_by(
-        '-count')
+    clientParentRows = ClientParentRow.objects.order_by('-count')
     serverRows = ServerRow.objects.order_by('-count')
     alarmRows = AlarmRow.objects.order_by('-module')
 
@@ -126,14 +125,14 @@ def handleClient(request):
                                                       latency=LATENCY.replace(' ms', ''), peakLatency=PEAK_LATENCY.replace(' ms', ''),
                                                       throughPut=THROUGHPUT.replace('/s', ''))
 
-                    clientParentHistoryRow = ClientParentHistoryRow(
+                    clientParentHistory = ClientParentHistory(
                         since=timeStamp, name=iteratedParentName, address=ADDRESS, active=ACTIVE, inActive=INACTIVE,
                         maxActive=MAX_ACTIVE, count=COUNT, errors=ERRORS, timeOuts=0 if TIMEOUTS == '-' else TIMEOUTS,
                         latency=LATENCY.replace(' ms', ''), peakLatency=PEAK_LATENCY.replace(' ms', ''),
                         throughPut=THROUGHPUT.replace('/s', ''))
 
                     saveData(clientParentRow)
-                    saveData(clientParentHistoryRow)
+                    saveData(clientParentHistory)
 
     except OSError:
         print('No client data found')
