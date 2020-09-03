@@ -1,4 +1,5 @@
 from django.db import models
+import uuid
 
 
 class ClientRow(models.Model):
@@ -18,8 +19,9 @@ class ClientRow(models.Model):
 
 
 class ClientParentRow(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     since = models.TextField()
-    name = models.CharField(max_length=20, primary_key=True)
+    name = models.CharField(max_length=20)
     address = models.CharField(max_length=50)
     active = models.IntegerField()
     inActive = models.TextField()
@@ -87,8 +89,9 @@ class MenuCharsRow(models.Model):
 
 
 class ClientParentHistory(models.Model):
+    hid = models.TextField()
     since = models.TextField()
-    name = models.CharField(max_length=20, primary_key=True)
+    name = models.CharField(max_length=20)
     address = models.CharField(max_length=50)
     active = models.IntegerField()
     inActive = models.TextField()
@@ -99,8 +102,6 @@ class ClientParentHistory(models.Model):
     latency = models.IntegerField()
     peakLatency = models.IntegerField()
     throughPut = models.IntegerField()
-
-    unique_together = (since, name)
 
     def __str__(self):
         return '<ClientParentHistory: {} - {}>'.format(self.since, self.name)

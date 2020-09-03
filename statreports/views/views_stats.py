@@ -8,6 +8,7 @@ import shutil
 import os
 from django.contrib import messages
 from django.db import transaction
+from django.db.models import Q
 
 
 def stats(request):
@@ -100,43 +101,52 @@ def handleClient(request):
     try:
         clientFile = open('./statreports/output/client.txt', 'r').readlines()
         title = clientFile.pop(0)
-        timeStamp = clientFile.pop(0).replace('since ', '')
+        timeStamp = clientFile.pop(0).replace('since ', '').replace(' ', '-')
         header = clientFile.pop(0)
 
-        with transaction.atomic():
-            for line in clientFile:
-                if(line.startswith(' ')):
-                    words = re.split(r'  +', line.lstrip())
-                    NAME, ADDRESS, ACTIVE, INACTIVE, MAX_ACTIVE, COUNT, ERRORS, TIMEOUTS, LATENCY, PEAK_LATENCY, THROUGHPUT = [
-                        i for i in words]
-                    clientRow = ClientRow(parentName=iteratedParentName, name=NAME, address=ADDRESS, active=ACTIVE,
-                                          count=COUNT, errors=ERRORS, timeOuts=0 if TIMEOUTS == '-' else TIMEOUTS,
-                                          latency=LATENCY.replace(' ms', ''), peakLatency=PEAK_LATENCY.replace(' ms', ''),
-                                          throughPut=THROUGHPUT.replace('/s', ''))
-                    saveData(clientRow)
-                else:
-                    words = re.split(r'  +', line)
-                    iteratedParentName = words[0].replace(
-                        'com.ericsson.em.am', 'c.e.e.a')
-                    NAME, ADDRESS, ACTIVE, INACTIVE, MAX_ACTIVE, COUNT, ERRORS, TIMEOUTS, LATENCY, PEAK_LATENCY, THROUGHPUT = [
-                        i for i in words]
-                    clientParentRow = ClientParentRow(since=timeStamp, name=iteratedParentName, address=ADDRESS, active=ACTIVE, inActive=INACTIVE,
-                                                      maxActive=MAX_ACTIVE, count=COUNT, errors=ERRORS, timeOuts=0 if TIMEOUTS == '-' else TIMEOUTS,
-                                                      latency=LATENCY.replace(' ms', ''), peakLatency=PEAK_LATENCY.replace(' ms', ''),
-                                                      throughPut=THROUGHPUT.replace('/s', ''))
+        # with transaction.atomic():
+        for line in clientFile:
+            if(line.startswith(' ')):
+                words = re.split(r'  +', line.lstrip())
+                NAME, ADDRESS, ACTIVE, INACTIVE, MAX_ACTIVE, COUNT, ERRORS, TIMEOUTS, LATENCY, PEAK_LATENCY, THROUGHPUT = [
+                    i for i in words]
+                clientRow = ClientRow(parentName=iteratedParentName, name=NAME, address=ADDRESS, active=ACTIVE,
+                                      count=COUNT, errors=ERRORS, timeOuts=0 if TIMEOUTS == '-' else TIMEOUTS,
+                                      latency=LATENCY.replace(' ms', ''), peakLatency=PEAK_LATENCY.replace(' ms', ''),
+                                      throughPut=THROUGHPUT.replace('/s', ''))
+                saveData(clientRow)
+            else:
+                words = re.split(r'  +', line)
+                iteratedParentName = words[0].replace(
+                    'com.ericsson.em.am', 'c.e.e.a')
+                NAME, ADDRESS, ACTIVE, INACTIVE, MAX_ACTIVE, COUNT, ERRORS, TIMEOUTS, LATENCY, PEAK_LATENCY, THROUGHPUT = [
+                    i for i in words]
+                clientParentRow = ClientParentRow(since=timeStamp, name=iteratedParentName, address=ADDRESS, active=ACTIVE, inActive=INACTIVE,
+                                                  maxActive=MAX_ACTIVE, count=COUNT, errors=ERRORS, timeOuts=0 if TIMEOUTS == '-' else TIMEOUTS,
+                                                  latency=LATENCY.replace(' ms', ''), peakLatency=PEAK_LATENCY.replace(' ms', ''),
+                                                  throughPut=THROUGHPUT.replace('/s', ''))
 
-                    clientParentHistory = ClientParentHistory(
-                        since=timeStamp, name=iteratedParentName, address=ADDRESS, active=ACTIVE, inActive=INACTIVE,
-                        maxActive=MAX_ACTIVE, count=COUNT, errors=ERRORS, timeOuts=0 if TIMEOUTS == '-' else TIMEOUTS,
-                        latency=LATENCY.replace(' ms', ''), peakLatency=PEAK_LATENCY.replace(' ms', ''),
-                        throughPut=THROUGHPUT.replace('/s', ''))
+                saveData(clientParentRow)
 
-                    saveData(clientParentRow)
-                    saveData(clientParentHistory)
+        saveToHistory(timeStamp)
 
     except OSError:
         print('No client data found')
         pass
+
+
+def saveToHistory(timeStamp):
+    exists = ClientParentHistory.objects.filter(since=timeStamp).exists()
+    print('----- ', exists, timeStamp)
+
+    if(not exists):
+        rows = ClientParentRow.objects.all()
+        for row in rows:
+            clientParentHistory = ClientParentHistory(hid=id, since=row.since, name=row.name, address=row.address, active=row.active,
+                                                      inActive=row.inActive, maxActive=row.maxActive, count=row.count, errors=row.errors,
+                                                      timeOuts=row.timeOuts, latency=row.latency, peakLatency=row.peakLatency,
+                                                      throughPut=row.throughPut)
+            saveData(clientParentHistory)
 
 
 def handleServer(request):
