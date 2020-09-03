@@ -8,7 +8,6 @@ import shutil
 import os
 from django.contrib import messages
 from django.db import transaction
-from django.db.models import Q
 
 
 def stats(request):

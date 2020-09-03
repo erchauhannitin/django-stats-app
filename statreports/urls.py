@@ -7,6 +7,7 @@ from .views.views_char_summary import char_json
 from .views.views_char_summary import char_chart
 from .views.views_clientparent_summary import clientparent_json
 from .views.views_clientparent_summary import clientparent_chart
+from .views.views_history import history
 from .views.views_summary import summary
 from django.conf import settings
 
@@ -24,6 +25,7 @@ urlpatterns = [
     path('clientparent_chart/', clientparent_chart, name='clientparent_chart'),
 
     path('summary/', summary, name='summary'),
+    path('history/', history, name='history'),
 
 ]
 
