@@ -62,50 +62,51 @@ def clearsPreviousOutput(request):
 
 def handlePath(request):
 
-    f = request.FILES["input_Chars_File"]
-    try:
-        with open('./statreports/input/'+f.name, 'wb+') as destination:
-            for chunk in f.chunks():
-                destination.write(chunk)
-            lines = open('./statreports/input/'+f.name, 'r').readlines()
-            header = lines.pop(0)
+    files = request.FILES.getlist('input_Chars_File')
+    for file in files:
+        try:
+            with open('./statreports/input/'+file.name, 'wb+') as destination:
+                for chunk in file.chunks():
+                    destination.write(chunk)
+                lines = open('./statreports/input/'+file.name, 'r').readlines()
+                header = lines.pop(0)
 
-        for line in lines:
+            for line in lines:
 
-            if(line.startswith(' ')):
-                words = re.split(r'  +', line.lstrip())
-                if(len(words) == 4):
-                    NAME, ERROR, COUNT, LAST_OCCURRENCE = [
-                        i for i in words]
-                    charsRow = CharsRow(parentName=iteratedParentName, name=NAME, error=ERROR,
-                                        count=COUNT, lastOccurence=LAST_OCCURRENCE)
-                    previousRow = charsRow
-                    if(iteratedParentName == 'c.e.e.a.menu'):
-                        menuCharsRow = MenuCharsRow(name=NAME, error=ERROR,
-                                                    count=COUNT, lastOccurence=LAST_OCCURRENCE)
-                        saveData(menuCharsRow)
-                    else:
-                        saveData(charsRow)
-                elif(len(words) == 3):
-                    ERROR, COUNT, LAST_OCCURRENCE = [
-                        i for i in words]
-                    charsRow = CharsRow(parentName=iteratedParentName, name=previousRow.name, error=ERROR,
-                                        count=COUNT, lastOccurence=LAST_OCCURRENCE)
-                    if(iteratedParentName == 'c.e.e.a.menu'):
-                        menuCharsRow = MenuCharsRow(name=previousRow.name, error=ERROR,
-                                                    count=COUNT, lastOccurence=LAST_OCCURRENCE)
-                        saveData(menuCharsRow)
-                    else:
-                        saveData(charsRow)
+                if(line.startswith(' ')):
+                    words = re.split(r'  +', line.lstrip())
+                    if(len(words) == 4):
+                        NAME, ERROR, COUNT, LAST_OCCURRENCE = [
+                            i for i in words]
+                        charsRow = CharsRow(parentName=iteratedParentName, name=NAME, error=ERROR,
+                                            count=COUNT, lastOccurence=LAST_OCCURRENCE)
+                        previousRow = charsRow
+                        if(iteratedParentName == 'c.e.e.a.menu'):
+                            menuCharsRow = MenuCharsRow(name=NAME, error=ERROR,
+                                                        count=COUNT, lastOccurence=LAST_OCCURRENCE)
+                            saveData(menuCharsRow)
+                        else:
+                            saveData(charsRow)
+                    elif(len(words) == 3):
+                        ERROR, COUNT, LAST_OCCURRENCE = [
+                            i for i in words]
+                        charsRow = CharsRow(parentName=iteratedParentName, name=previousRow.name, error=ERROR,
+                                            count=COUNT, lastOccurence=LAST_OCCURRENCE)
+                        if(iteratedParentName == 'c.e.e.a.menu'):
+                            menuCharsRow = MenuCharsRow(name=previousRow.name, error=ERROR,
+                                                        count=COUNT, lastOccurence=LAST_OCCURRENCE)
+                            saveData(menuCharsRow)
+                        else:
+                            saveData(charsRow)
 
-            else:
-                words = re.split(r'  +', line)
-                iteratedParentName = words[0].replace(
-                    'com.ericsson.em.am', 'c.e.e.a')
+                else:
+                    words = re.split(r'  +', line)
+                    iteratedParentName = words[0].replace(
+                        'com.ericsson.em.am', 'c.e.e.a')
 
-    except OSError:
-        print('No char data found')
-        pass
+        except OSError:
+            print('No char data found')
+            pass
 
 
 def saveData(row):
