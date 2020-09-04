@@ -43,25 +43,26 @@ def home_stat(request):
 
 
 def handle_uploaded_file(request):
-    f = request.FILES["input_Stats_File"]
-    try:
-        with open('./statreports/input/'+f.name, 'wb+') as destination:
-            for chunk in f.chunks():
-                destination.write(chunk)
-            lines = open('./statreports/input/'+f.name, 'r').read()
-        blocks = lines.split("\n\n")
+    files = request.FILES.getlist('input_Stats_File')
+    for file in files:
+        try:
+            with open('./statreports/input/'+file.name, 'wb+') as destination:
+                for chunk in file.chunks():
+                    destination.write(chunk)
+                lines = open('./statreports/input/'+file.name, 'r').read()
+            blocks = lines.split("\n\n")
 
-        clearsPreviousOutput(request)
-        writeToFiles(blocks)
+            clearsPreviousOutput(request)
+            writeToFiles(blocks)
 
-    except ValueError:
-        print('Input file is not correct, check if it is valid statistics report')
-        messages.add_message(request, messages.ERROR,
-                             'Invalid input stats file')
+        except ValueError:
+            print('Input file is not correct, check if it is valid statistics report')
+            messages.add_message(request, messages.ERROR,
+                                 'Invalid input stats file')
 
-    handleClient(request)
-    handleServer(request)
-    handleAlarm(request)
+        handleClient(request)
+        handleServer(request)
+        handleAlarm(request)
 
 
 def writeToFiles(blocks):
