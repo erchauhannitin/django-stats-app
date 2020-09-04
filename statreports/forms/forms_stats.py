@@ -15,5 +15,5 @@ def validate_file_size(value):
 
 
 class InputStatsFileForm(forms.Form):
-    input_Stats_File = forms.FileField(
-        validators=[FileExtensionValidator(allowed_extensions=['txt']), validate_file_size])
+    input_Stats_File = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}),
+                                       validators=[FileExtensionValidator(allowed_extensions=['txt']), validate_file_size])

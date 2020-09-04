@@ -50,21 +50,9 @@ def handle_uploaded_file(request):
                 destination.write(chunk)
             lines = open('./statreports/input/'+f.name, 'r').read()
         blocks = lines.split("\n\n")
-        dest = None
 
         clearsPreviousOutput(request)
-
-        for block in blocks:
-
-            titles = block.split("\n")
-            if titles[0] == '':
-                shutil.rmtree('./statreports/input/')
-                os.makedirs('./statreports/input/')
-                raise ValueError(
-                    'Input file is not correct, check if it is valid statistics report')
-            dest = open('./statreports/output/'+titles[0] + '.txt', 'w')
-            dest.write(block)
-            dest.close()
+        writeToFiles(blocks)
 
     except ValueError:
         print('Input file is not correct, check if it is valid statistics report')
@@ -74,6 +62,20 @@ def handle_uploaded_file(request):
     handleClient(request)
     handleServer(request)
     handleAlarm(request)
+
+
+def writeToFiles(blocks):
+    for block in blocks:
+
+        titles = block.split("\n")
+        if titles[0] == '':
+            shutil.rmtree('./statreports/input/')
+            os.makedirs('./statreports/input/')
+            raise ValueError(
+                'Input file is not correct, check if it is valid statistics report')
+        dest = open('./statreports/output/'+titles[0] + '.txt', 'w')
+        dest.write(block)
+        dest.close()
 
 
 def clearsPreviousOutput(request):
