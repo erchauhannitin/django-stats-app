@@ -10,6 +10,8 @@ from .views.views_clientparent_summary import clientparent_chart
 from .views.views_history import history
 from .views.views_summary import summary
 from django.conf import settings
+from django.contrib.staticfiles.storage import staticfiles_storage
+from django.views.generic.base import RedirectView
 
 
 urlpatterns = [
@@ -26,6 +28,9 @@ urlpatterns = [
 
     path('summary/', summary, name='summary'),
     path('history/', history, name='history'),
+
+    path('favicon.ico', RedirectView.as_view(
+        url=staticfiles_storage.url('images/favicon.ico')))
 
 ]
 
