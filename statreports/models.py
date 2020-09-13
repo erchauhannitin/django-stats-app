@@ -4,8 +4,8 @@ import uuid
 
 class ClientRow(models.Model):
     parentName = models.CharField(max_length=50)
-    name = models.CharField(max_length=20)
-    address = models.CharField(max_length=50)
+    name = models.CharField(max_length=100)
+    address = models.CharField(max_length=100)
     active = models.IntegerField()
     count = models.IntegerField()
     errors = models.IntegerField()
@@ -21,8 +21,8 @@ class ClientRow(models.Model):
 class ClientParentRow(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     since = models.TextField()
-    name = models.CharField(max_length=20)
-    address = models.CharField(max_length=50)
+    name = models.CharField(max_length=100)
+    address = models.CharField(max_length=100)
     active = models.IntegerField()
     inActive = models.TextField()
     maxActive = models.TextField()
@@ -38,9 +38,9 @@ class ClientParentRow(models.Model):
 
 
 class ServerRow(models.Model):
-    parentName = models.CharField(max_length=50)
-    name = models.CharField(max_length=20, primary_key=True)
-    address = models.CharField(max_length=50)
+    parentName = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, primary_key=True)
+    address = models.CharField(max_length=100)
     active = models.IntegerField()
     maxActive = models.TextField()
     count = models.IntegerField()
@@ -54,14 +54,14 @@ class ServerRow(models.Model):
 
 
 class AlarmRow(models.Model):
-    name = models.CharField(max_length=40)
-    module = models.CharField(max_length=25, primary_key=True)
+    name = models.CharField(max_length=100)
+    module = models.CharField(max_length=100, primary_key=True)
     id = models.IntegerField()
     description = models.TextField()
     raised = models.IntegerField()
     lastRaised = models.TextField()
     cleared = models.IntegerField()
-    lastCleared = models.CharField(max_length=30)
+    lastCleared = models.CharField(max_length=50)
 
     def __str__(self):
         return '<Alarm: {}>'.format(self.name)
@@ -80,7 +80,7 @@ class CharsRow(models.Model):
 
 class MenuCharsRow(models.Model):
     name = models.CharField(max_length=120)
-    error = models.CharField(max_length=40)
+    error = models.CharField(max_length=100)
     count = models.IntegerField()
     lastOccurence = models.TextField()
 
@@ -91,8 +91,8 @@ class MenuCharsRow(models.Model):
 class ClientParentHistory(models.Model):
     hid = models.TextField()
     since = models.TextField()
-    name = models.CharField(max_length=20)
-    address = models.CharField(max_length=50)
+    name = models.CharField(max_length=100)
+    address = models.CharField(max_length=100)
     active = models.IntegerField()
     inActive = models.TextField()
     maxActive = models.TextField()
