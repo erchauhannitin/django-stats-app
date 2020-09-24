@@ -25,7 +25,7 @@ SECRET_KEY = 'k^-vb3b5cj1-nb##tj#sz25n7yhwkuysn)&h#7^b=v*npwd8zj'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['e8bc99aec4dc.ngrok.io', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['e8bc99aec4dc.ngrok.io', 'localhost', '127.0.0.1', '0.0.0.0']
 
 INTERNAL_IPS = [
     # ...
@@ -81,7 +81,7 @@ WSGI_APPLICATION = 'django_project.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+    'postgre': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'lsagnwvu',
         'USER': 'lsagnwvu',
@@ -89,7 +89,7 @@ DATABASES = {
         'HOST': 'lallah.db.elephantsql.com',
         'PORT': '5432',
     },
-    'sqlite3': {
+    'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
